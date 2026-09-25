@@ -1,4 +1,4 @@
-.PHONY: setup backend frontend dev test lint seed demo mitre benchmark up down
+.PHONY: setup backend frontend dev test lint seed demo mitre benchmark prewarm offline up down
 
 setup:            ## install backend + frontend dependencies
 	cd backend && uv sync
@@ -18,6 +18,12 @@ demo:             ## load demo data + run the pipeline via the API (backend must
 
 mitre:            ## re-download the official ATT&CK STIX bundle and rebuild the catalog snapshot
 	cd backend && uv run python ../scripts/download_mitre.py
+
+prewarm:          ## cache Jev decisions + model briefs for the demo into data/ai_cache.json
+	cd backend && uv run python ../scripts/prewarm_ai.py --briefs $${BRIEFS:-12}
+
+offline:          ## run the API with zero outbound AI calls (cached AI output still shown)
+	cd backend && OFFLINE_MODE=true uv run uvicorn app.main:app --port 8000
 
 benchmark:        ## run pipeline + ground-truth metrics for several seeds
 	cd backend && uv run python ../scripts/benchmark_pipeline.py --seeds 7 11 23

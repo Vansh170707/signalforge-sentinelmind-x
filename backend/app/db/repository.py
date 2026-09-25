@@ -27,12 +27,52 @@ def audit(db: Session, action: str, *, actor: str = "system", target_type: str |
                         trace_id=trace_id, details=details))
 
 
-def reset_all(db: Session) -> None:
-    """Remove demo data. Analyst feedback, decisions and narrative caches are also cleared."""
-    for model in (m.IncidentAlert, m.IncidentEntity, m.AttackStage, m.IncidentMitre, m.Incident, m.AlertEntity,
-                  m.Alert, m.Entity, m.IngestBatch, m.PipelineRun, m.EvaluationRun, m.DecisionRun, m.LlmRun,
-                  m.AnalystFeedback):
+def reset_all(db: Session, purge_ai_cache: bool = False) -> None:
+    """Remove demo data and analyst feedback. Jev decisions and model briefs are caches keyed by evidence
+    hash (+ model / prompt version), so they stay valid across reloads and are kept unless purged."""
+    models = [m.IncidentAlert, m.IncidentEntity, m.AttackStage, m.IncidentMitre, m.Incident, m.AlertEntity,
+              m.Alert, m.Entity, m.IngestBatch, m.PipelineRun, m.EvaluationRun, m.AnalystFeedback]
+    if purge_ai_cache:
+        models += [m.DecisionRun, m.LlmRun]
+    for model in models:
         db.execute(delete(model))
+
+
+def export_ai_cache(db: Session) -> dict[str, Any]:
+    decisions = [{"evidence_hash": d.evidence_hash, "provider": d.provider, "model": d.model, "decision": d.decision,
+                  "latency_ms": d.latency_ms, "created_at": d.created_at.isoformat()}
+                 for d in db.scalars(select(m.DecisionRun).where(m.DecisionRun.status == "ok"))]
+    briefs = [{"evidence_hash": r.evidence_hash, "provider": r.provider, "model": r.model,
+               "prompt_version": r.prompt_version, "output": r.output, "output_hash": r.output_hash,
+               "validation": r.validation, "latency_ms": r.latency_ms, "created_at": r.created_at.isoformat()}
+              for r in db.scalars(select(m.LlmRun).where(m.LlmRun.status == "ok", m.LlmRun.provider != "template"))]
+    return {"format": "sentinelmind-ai-cache/v1", "decisions": decisions, "briefs": briefs}
+
+
+def import_ai_cache(db: Session, data: dict[str, Any]) -> dict[str, int]:
+    """Idempotent upsert of cached decisions/briefs (only fills gaps; never overwrites fresher rows)."""
+    have_d = set(db.execute(select(m.DecisionRun.evidence_hash, m.DecisionRun.model)).all())
+    have_b = set(db.execute(select(m.LlmRun.evidence_hash, m.LlmRun.provider, m.LlmRun.model, m.LlmRun.prompt_version)
+                            .where(m.LlmRun.status == "ok")).all())
+    nd = nb = 0
+    for d in data.get("decisions", []):
+        if (d["evidence_hash"], d["model"]) in have_d:
+            continue
+        db.add(m.DecisionRun(evidence_hash=d["evidence_hash"], provider=d["provider"], model=d["model"], status="ok",
+                             decision=d["decision"], latency_ms=d.get("latency_ms", 0),
+                             created_at=datetime.fromisoformat(d["created_at"])))
+        nd += 1
+    for b in data.get("briefs", []):
+        if (b["evidence_hash"], b["provider"], b["model"], b["prompt_version"]) in have_b:
+            continue
+        db.add(m.LlmRun(evidence_hash=b["evidence_hash"], provider=b["provider"], model=b["model"],
+                        prompt_version=b["prompt_version"], status="ok", output=b["output"],
+                        output_hash=b.get("output_hash"), validation=b.get("validation", {}),
+                        attempts=[{"provider": b["provider"], "model": b["model"], "status": "ok", "cached": True}],
+                        latency_ms=b.get("latency_ms", 0), created_at=datetime.fromisoformat(b["created_at"])))
+        nb += 1
+    db.flush()
+    return {"decisions": nd, "briefs": nb}
 
 
 # ---------------------------------------------------------------- ingestion

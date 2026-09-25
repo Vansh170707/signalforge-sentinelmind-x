@@ -78,3 +78,51 @@ def test_malicious_string_displayed_as_data(client, loaded):
     items = client.get("/api/v1/alerts", params={"q": "encoded_command", "page_size": 200}).json()["items"]
     texts = [a["attributes"].get("command_line", "") for a in items]
     assert any("ignore all previous instructions" in t for t in texts)
+
+
+def test_sentinel_export_payload(client, loaded):
+    iid = client.get("/api/v1/incidents").json()["items"][0]["incident_id"]
+    p = client.get(f"/api/v1/incidents/{iid}/sentinel").json()
+    props = p["properties"]
+    assert props["providerName"] == "SentinelMind X" and props["providerIncidentId"] == iid
+    assert props["severity"] == "High" and p["relatedAlertIds"] and p["comments"][0]["properties"]["message"]
+    assert "CredentialAccess" in props["additionalData"]["tactics"]
+
+
+def test_ai_cache_round_trip_and_offline_serving(client, loaded):
+    import asyncio
+
+    from sqlalchemy import delete
+
+    from app.config import get_settings
+    from app.db import models as m
+    from app.db import repository as repo
+    from app.db.session import session_scope
+    from app.services import runner
+
+    iid = client.get("/api/v1/incidents").json()["items"][0]["incident_id"]
+    ehash = client.get(f"/api/v1/incidents/{iid}").json()["evidence_hash"]
+    brief = {"executive_summary": "cached model brief for the demo",
+             "observed_facts": [{"fact": "cached fact", "alert_ids": ["x"]}], "hypotheses": [],
+             "why_high_risk": [], "affected_entities": [], "mitre_explanation": [],
+             "investigation_checks": ["check"], "uncertainties": [], "overall_confidence": 0.5}
+    with session_scope() as db:
+        db.add(m.LlmRun(incident_id=iid, evidence_hash=ehash, provider="mercury", model="mercury-2.5",
+                        prompt_version=get_settings().prompt_version, status="ok", output=brief))
+    with session_scope() as db:
+        data = repo.export_ai_cache(db)
+        db.execute(delete(m.LlmRun))
+        assert repo.import_ai_cache(db, data)["briefs"] == 1
+        assert repo.import_ai_cache(db, data)["briefs"] == 0  # idempotent
+
+    settings = get_settings()
+    settings.offline_mode = True
+    try:
+        # Even an explicit refresh must not replace the cached model brief when no provider may be called.
+        res = asyncio.run(runner.brief_for_incident(iid, refresh=True))
+        assert res["provider"] == "mercury" and res["cached"]
+        assert client.get(f"/api/v1/incidents/{iid}/brief").json()["provider"] == "mercury"
+    finally:
+        settings.offline_mode = False
+        with session_scope() as db:
+            db.execute(delete(m.LlmRun))

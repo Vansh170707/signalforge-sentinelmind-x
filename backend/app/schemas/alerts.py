@@ -57,3 +57,4 @@ class BatchResult(BaseModel):
     rejected: int
     rejected_rows: list[RejectedRow] = Field(default_factory=list)
     duration_ms: float = 0.0
+    converted_from_sentinel: int = 0

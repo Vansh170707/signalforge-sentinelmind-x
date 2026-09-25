@@ -292,9 +292,10 @@ export interface SettingsView {
 
 export interface DemoLoadResult {
   seed: number
+  via?: string
   generated_rows: number
   ground_truth_incidents: number
-  batch: { batch_id: string; received: number; accepted: number; duplicates: number; rejected: number; duration_ms: number }
+  batch: { batch_id: string; received: number; accepted: number; duplicates: number; rejected: number; duration_ms: number; converted_from_sentinel?: number }
   rejected_rows: { row_index: number; alert_id: string | null; errors: string[] }[]
   duration_ms: number
   run_id?: string

@@ -56,6 +56,7 @@ function Header({ d }: { d: Detail }) {
         <span>rank #{d.rank}</span>
         <span>{fmtTime(d.first_seen)} → {fmtClock(d.last_seen)}</span>
         <span className="rounded bg-ink-800 px-1.5 py-0.5 uppercase tracking-wide text-slate-300">{d.status}</span>
+        <span className="ml-auto"><SentinelExportButton id={d.incident_id} /></span>
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-5">
         <div className="flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-2xl border-2" style={{ boxShadow: `0 0 40px -12px ${SEV_COLOR[d.severity]}`, borderColor: SEV_COLOR[d.severity] }}>
@@ -81,6 +82,25 @@ function Header({ d }: { d: Detail }) {
         </div>
       </div>
     </div>
+  )
+}
+
+function SentinelExportButton({ id }: { id: string }) {
+  const m = useMutation({
+    mutationFn: () => api.sentinelExport(id),
+    onSuccess: (payload) => {
+      const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' }))
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${id}.sentinel-incident.json`
+      a.click()
+      URL.revokeObjectURL(url)
+    },
+  })
+  return (
+    <Button size="sm" onClick={() => m.mutate()} disabled={m.isPending} title="Download a Microsoft Sentinel incident payload (nothing is pushed automatically)">
+      {m.isPending ? 'Exporting…' : m.isError ? 'Export failed — retry' : 'Export to Sentinel'}
+    </Button>
   )
 }
 

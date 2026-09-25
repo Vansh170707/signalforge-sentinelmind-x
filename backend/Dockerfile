@@ -7,6 +7,7 @@ RUN uv sync --frozen --no-dev --no-install-project
 COPY backend/ ./
 COPY scripts/ /app/scripts/
 COPY data/mitre/attack_catalog.json /app/data/mitre/attack_catalog.json
+COPY data/ai_cache.json /app/data/ai_cache.json
 RUN uv sync --frozen --no-dev
 EXPOSE 8000
 HEALTHCHECK --interval=10s --timeout=3s --retries=12 CMD python -c "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8000/health')"

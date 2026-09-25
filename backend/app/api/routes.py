@@ -17,6 +17,7 @@ from app.schemas.alerts import BatchIn
 from app.services import runner
 from app.services.ingestion import parse_payload
 from app.services.mitre import get_catalog
+from app.services.sentinel import to_sentinel_incident
 
 router = APIRouter(prefix="/api/v1")
 
@@ -33,11 +34,12 @@ def not_found(what: str) -> HTTPException:
 class DemoLoadIn(BaseModel):
     seed: int = Field(default=7, ge=0, le=1_000_000)
     run_pipeline: bool = False
+    via: Literal["native", "sentinel"] = "native"
 
 
 @router.post("/demo/reset")
-def demo_reset(request: Request, db: Session = Depends(get_db)) -> dict[str, Any]:
-    repo.reset_all(db)
+def demo_reset(request: Request, db: Session = Depends(get_db), purge_ai_cache: bool = False) -> dict[str, Any]:
+    repo.reset_all(db, purge_ai_cache=purge_ai_cache)
     repo.audit(db, "demo.reset", trace_id=trace(request))
     db.commit()
     return {"status": "reset"}
@@ -45,7 +47,7 @@ def demo_reset(request: Request, db: Session = Depends(get_db)) -> dict[str, Any
 
 @router.post("/demo/load")
 def demo_load(body: DemoLoadIn, request: Request, db: Session = Depends(get_db)) -> dict[str, Any]:
-    result = runner.load_demo(db, body.seed, trace(request))
+    result = runner.load_demo(db, body.seed, trace(request), via=body.via)
     db.commit()
     if body.run_pipeline:
         result["run_id"] = runner.start_pipeline_run(trace(request))
@@ -237,9 +239,10 @@ async def get_brief(incident_id: str, db: Session = Depends(get_db)) -> dict[str
     inc = db.get(m.Incident, incident_id)
     if inc is None:
         raise not_found("incident")
+    # Prefer the latest valid model brief; a later fallback (provider outage) must not hide it.
     cached = db.scalar(select(m.LlmRun).where(m.LlmRun.evidence_hash == inc.evidence_hash,
                                               m.LlmRun.prompt_version == get_settings().prompt_version)
-                       .order_by(m.LlmRun.created_at.desc()).limit(1))
+                       .order_by((m.LlmRun.provider != "template").desc(), m.LlmRun.created_at.desc()).limit(1))
     if cached is not None:
         return runner._brief_payload(cached, cached=True)
     return {"incident_id": incident_id, "provider": "template", "model": "deterministic-template", "status": "ok",
@@ -262,6 +265,23 @@ async def post_brief(incident_id: str, body: BriefIn | None = None) -> dict[str,
     if result is None:
         raise not_found("incident")
     return result
+
+
+@router.get("/incidents/{incident_id}/sentinel")
+def export_sentinel(incident_id: str, request: Request, db: Session = Depends(get_db)) -> dict[str, Any]:
+    """Incident as a Microsoft Sentinel incidents-API-shaped payload (advisory export; nothing is pushed)."""
+    view = runner.incident_view(db, incident_id)
+    if view is None:
+        raise not_found("incident")
+    run = db.scalar(select(m.LlmRun).where(m.LlmRun.evidence_hash == view["evidence_hash"])
+                    .order_by(m.LlmRun.created_at.desc()).limit(1))
+    brief = run.output if run is not None else view["template_summary"]
+    cat = get_catalog()
+    tactics = {t["technique_id"]: cat.get(t["technique_id"]).get("tactics", []) for t in view["mitre"]
+               if cat.get(t["technique_id"])}
+    repo.audit(db, "incident.export_sentinel", target_type="incident", target_id=incident_id, trace_id=trace(request))
+    db.commit()
+    return to_sentinel_incident(view, brief, view["alert_ids"], tactics)
 
 
 @router.post("/incidents/{incident_id}/decision")
@@ -437,7 +457,11 @@ def settings_view(db: Session = Depends(get_db)) -> dict[str, Any]:
                         "edge_threshold": s.correlation_edge_threshold,
                         "max_component": s.correlation_max_component, "version": s.correlation_config_version},
         "risk_config_version": s.risk_config_version, "prompt_version": s.prompt_version,
-        "demo_seed": s.demo_seed, "attack_catalog_version": get_catalog().version,
+        "demo_seed": s.demo_seed, "attack_catalog_version": get_catalog().version, "offline_mode": s.offline_mode,
+        "ai_cache": {"decisions": db.scalar(select(func.count()).select_from(m.DecisionRun)
+                                            .where(m.DecisionRun.status == "ok")),
+                     "model_briefs": db.scalar(select(func.count()).select_from(m.LlmRun)
+                                               .where(m.LlmRun.status == "ok", m.LlmRun.provider != "template"))},
         "database": db.bind.dialect.name,
     }
 

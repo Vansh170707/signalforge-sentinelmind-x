@@ -1,0 +1,2290 @@
+{
+ "format": "sentinelmind-ai-cache/v1",
+ "decisions": [
+  {
+   "evidence_hash": "11f13a145f8838595848",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "suspicious",
+    "disposition_confidence": 0.39,
+    "disposition_probabilities": {
+     "suspicious": 0.54,
+     "benign": 0.45,
+     "uncertain": 0.01,
+     "malicious": 0.0
+    },
+    "p_malicious": 0.0,
+    "severity_score": 2.5,
+    "severity_normalized": 0.625,
+    "severity_confidence": 0.54,
+    "p_escalate": 0.36,
+    "p_false_positive": 0.66,
+    "attack_family": "credential",
+    "attack_family_confidence": 0.96,
+    "needs_human_review": true,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1062.8,
+   "created_at": "2026-09-25T15:57:49.724798+00:00"
+  },
+  {
+   "evidence_hash": "9ac5d519479dd4951f90",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.91,
+    "disposition_probabilities": {
+     "benign": 0.93,
+     "uncertain": 0.0,
+     "suspicious": 0.07,
+     "malicious": 0.0
+    },
+    "p_malicious": 0.0,
+    "severity_score": 1.7,
+    "severity_normalized": 0.425,
+    "severity_confidence": 0.0,
+    "p_escalate": 0.23,
+    "p_false_positive": 0.82,
+    "attack_family": "other",
+    "attack_family_confidence": 0.99,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1036.5,
+   "created_at": "2026-09-25T15:57:49.727101+00:00"
+  },
+  {
+   "evidence_hash": "b92ae48d6ef501603570",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.77,
+    "disposition_probabilities": {
+     "suspicious": 0.17,
+     "malicious": 0.0,
+     "uncertain": 0.0,
+     "benign": 0.83
+    },
+    "p_malicious": 0.0,
+    "severity_score": 2.33,
+    "severity_normalized": 0.5825,
+    "severity_confidence": 0.3,
+    "p_escalate": 0.29,
+    "p_false_positive": 0.78,
+    "attack_family": "other",
+    "attack_family_confidence": 0.97,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1119.2,
+   "created_at": "2026-09-25T15:57:49.728331+00:00"
+  },
+  {
+   "evidence_hash": "572956a542c99c944056",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "malicious",
+    "disposition_confidence": 1.0,
+    "disposition_probabilities": {
+     "benign": 0.0,
+     "suspicious": 0.0,
+     "uncertain": 0.0,
+     "malicious": 1.0
+    },
+    "p_malicious": 1.0,
+    "severity_score": 3.03,
+    "severity_normalized": 0.7575,
+    "severity_confidence": 0.95,
+    "p_escalate": 0.94,
+    "p_false_positive": 0.06,
+    "attack_family": "mixed",
+    "attack_family_confidence": 0.98,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1135.7,
+   "created_at": "2026-09-25T15:57:49.729439+00:00"
+  },
+  {
+   "evidence_hash": "c403604cd8c6c7c3c6aa",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "suspicious",
+    "disposition_confidence": 0.99,
+    "disposition_probabilities": {
+     "malicious": 0.0,
+     "suspicious": 1.0,
+     "benign": 0.0,
+     "uncertain": 0.0
+    },
+    "p_malicious": 0.0,
+    "severity_score": 3.22,
+    "severity_normalized": 0.805,
+    "severity_confidence": 0.67,
+    "p_escalate": 0.64,
+    "p_false_positive": 0.41,
+    "attack_family": "execution",
+    "attack_family_confidence": 0.33,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1128.1,
+   "created_at": "2026-09-25T15:57:49.730269+00:00"
+  },
+  {
+   "evidence_hash": "3b63f8654a4e5bc0ec7c",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.74,
+    "disposition_probabilities": {
+     "malicious": 0.0,
+     "uncertain": 0.0,
+     "benign": 0.81,
+     "suspicious": 0.19
+    },
+    "p_malicious": 0.0,
+    "severity_score": 2.33,
+    "severity_normalized": 0.5825,
+    "severity_confidence": 0.32,
+    "p_escalate": 0.31,
+    "p_false_positive": 0.75,
+    "attack_family": "other",
+    "attack_family_confidence": 0.98,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1162.3,
+   "created_at": "2026-09-25T15:57:49.731047+00:00"
+  },
+  {
+   "evidence_hash": "7cfa1cff510b0f9a33f2",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "malicious",
+    "disposition_confidence": 1.0,
+    "disposition_probabilities": {
+     "malicious": 1.0,
+     "uncertain": 0.0,
+     "suspicious": 0.0,
+     "benign": 0.0
+    },
+    "p_malicious": 1.0,
+    "severity_score": 4.0,
+    "severity_normalized": 1.0,
+    "severity_confidence": 1.0,
+    "p_escalate": 0.97,
+    "p_false_positive": 0.06,
+    "attack_family": "mixed",
+    "attack_family_confidence": 1.0,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1445.7,
+   "created_at": "2026-09-25T15:57:49.731753+00:00"
+  },
+  {
+   "evidence_hash": "c90072d87f27eb41c3a4",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "malicious",
+    "disposition_confidence": 1.0,
+    "disposition_probabilities": {
+     "uncertain": 0.0,
+     "malicious": 1.0,
+     "benign": 0.0,
+     "suspicious": 0.0
+    },
+    "p_malicious": 1.0,
+    "severity_score": 2.83,
+    "severity_normalized": 0.7075,
+    "severity_confidence": 0.85,
+    "p_escalate": 0.92,
+    "p_false_positive": 0.05,
+    "attack_family": "mixed",
+    "attack_family_confidence": 0.81,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1420.4,
+   "created_at": "2026-09-25T15:57:49.732385+00:00"
+  },
+  {
+   "evidence_hash": "303fece3a867eb6afbae",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "malicious",
+    "disposition_confidence": 1.0,
+    "disposition_probabilities": {
+     "suspicious": 0.0,
+     "malicious": 1.0,
+     "uncertain": 0.0,
+     "benign": 0.0
+    },
+    "p_malicious": 1.0,
+    "severity_score": 4.0,
+    "severity_normalized": 1.0,
+    "severity_confidence": 1.0,
+    "p_escalate": 0.98,
+    "p_false_positive": 0.03,
+    "attack_family": "mixed",
+    "attack_family_confidence": 1.0,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1516.5,
+   "created_at": "2026-09-25T15:57:49.733013+00:00"
+  },
+  {
+   "evidence_hash": "f729cec87efc82994a5c",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "malicious",
+    "disposition_confidence": 1.0,
+    "disposition_probabilities": {
+     "suspicious": 0.0,
+     "malicious": 1.0,
+     "uncertain": 0.0,
+     "benign": 0.0
+    },
+    "p_malicious": 1.0,
+    "severity_score": 3.21,
+    "severity_normalized": 0.8025,
+    "severity_confidence": 0.82,
+    "p_escalate": 0.95,
+    "p_false_positive": 0.05,
+    "attack_family": "credential",
+    "attack_family_confidence": 0.96,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1493.2,
+   "created_at": "2026-09-25T15:57:49.733635+00:00"
+  },
+  {
+   "evidence_hash": "52033ac415f89d787f24",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.18,
+    "disposition_probabilities": {
+     "uncertain": 0.01,
+     "malicious": 0.3,
+     "benign": 0.39,
+     "suspicious": 0.3
+    },
+    "p_malicious": 0.3,
+    "severity_score": 3.56,
+    "severity_normalized": 0.89,
+    "severity_confidence": 0.64,
+    "p_escalate": 0.63,
+    "p_false_positive": 0.63,
+    "attack_family": "mixed",
+    "attack_family_confidence": 0.8,
+    "needs_human_review": true,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1497.9,
+   "created_at": "2026-09-25T15:57:49.734257+00:00"
+  },
+  {
+   "evidence_hash": "38827d689f94b1a60ee5",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "suspicious",
+    "disposition_confidence": 0.53,
+    "disposition_probabilities": {
+     "malicious": 0.06,
+     "benign": 0.29,
+     "suspicious": 0.64,
+     "uncertain": 0.01
+    },
+    "p_malicious": 0.06,
+    "severity_score": 3.36,
+    "severity_normalized": 0.84,
+    "severity_confidence": 0.47,
+    "p_escalate": 0.45,
+    "p_false_positive": 0.63,
+    "attack_family": "mixed",
+    "attack_family_confidence": 0.48,
+    "needs_human_review": true,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1731.9,
+   "created_at": "2026-09-25T15:57:49.734881+00:00"
+  },
+  {
+   "evidence_hash": "dad7f8e85d5951a641a5",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "suspicious",
+    "disposition_confidence": 0.94,
+    "disposition_probabilities": {
+     "benign": 0.04,
+     "uncertain": 0.0,
+     "suspicious": 0.95,
+     "malicious": 0.01
+    },
+    "p_malicious": 0.01,
+    "severity_score": 3.41,
+    "severity_normalized": 0.8525,
+    "severity_confidence": 0.51,
+    "p_escalate": 0.61,
+    "p_false_positive": 0.5,
+    "attack_family": "data_access",
+    "attack_family_confidence": 0.69,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 939.8,
+   "created_at": "2026-09-25T15:57:49.735501+00:00"
+  },
+  {
+   "evidence_hash": "55b5def8e31d8be3663b",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "suspicious",
+    "disposition_confidence": 0.88,
+    "disposition_probabilities": {
+     "benign": 0.09,
+     "uncertain": 0.0,
+     "suspicious": 0.91,
+     "malicious": 0.0
+    },
+    "p_malicious": 0.0,
+    "severity_score": 2.44,
+    "severity_normalized": 0.61,
+    "severity_confidence": 0.57,
+    "p_escalate": 0.35,
+    "p_false_positive": 0.65,
+    "attack_family": "other",
+    "attack_family_confidence": 0.93,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1014.6,
+   "created_at": "2026-09-25T15:57:49.736057+00:00"
+  },
+  {
+   "evidence_hash": "46e66aac4976866cc7b7",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.89,
+    "disposition_probabilities": {
+     "uncertain": 0.0,
+     "malicious": 0.0,
+     "suspicious": 0.08,
+     "benign": 0.92
+    },
+    "p_malicious": 0.0,
+    "severity_score": 1.7,
+    "severity_normalized": 0.425,
+    "severity_confidence": 0.0,
+    "p_escalate": 0.24,
+    "p_false_positive": 0.83,
+    "attack_family": "other",
+    "attack_family_confidence": 0.99,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 996.8,
+   "created_at": "2026-09-25T15:57:49.737332+00:00"
+  },
+  {
+   "evidence_hash": "4a6fb7b0fd57442a9726",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.7,
+    "disposition_probabilities": {
+     "uncertain": 0.0,
+     "malicious": 0.0,
+     "suspicious": 0.22,
+     "benign": 0.78
+    },
+    "p_malicious": 0.0,
+    "severity_score": 2.32,
+    "severity_normalized": 0.58,
+    "severity_confidence": 0.26,
+    "p_escalate": 0.32,
+    "p_false_positive": 0.75,
+    "attack_family": "other",
+    "attack_family_confidence": 0.95,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1037.0,
+   "created_at": "2026-09-25T15:57:49.738070+00:00"
+  },
+  {
+   "evidence_hash": "c29e8253fcee418211e3",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.74,
+    "disposition_probabilities": {
+     "benign": 0.81,
+     "suspicious": 0.19,
+     "uncertain": 0.0,
+     "malicious": 0.0
+    },
+    "p_malicious": 0.0,
+    "severity_score": 2.41,
+    "severity_normalized": 0.6025,
+    "severity_confidence": 0.36,
+    "p_escalate": 0.31,
+    "p_false_positive": 0.75,
+    "attack_family": "other",
+    "attack_family_confidence": 0.97,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1078.0,
+   "created_at": "2026-09-25T15:57:49.738658+00:00"
+  },
+  {
+   "evidence_hash": "9c77385733b9b17d00cf",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.76,
+    "disposition_probabilities": {
+     "malicious": 0.0,
+     "suspicious": 0.17,
+     "uncertain": 0.01,
+     "benign": 0.82
+    },
+    "p_malicious": 0.0,
+    "severity_score": 1.68,
+    "severity_normalized": 0.42,
+    "severity_confidence": 0.0,
+    "p_escalate": 0.28,
+    "p_false_positive": 0.79,
+    "attack_family": "other",
+    "attack_family_confidence": 0.98,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 962.2,
+   "created_at": "2026-09-25T15:57:49.739211+00:00"
+  },
+  {
+   "evidence_hash": "f36fa23d49f3d5b01ad7",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.36,
+    "disposition_probabilities": {
+     "benign": 0.52,
+     "suspicious": 0.48,
+     "uncertain": 0.0,
+     "malicious": 0.0
+    },
+    "p_malicious": 0.0,
+    "severity_score": 2.96,
+    "severity_normalized": 0.74,
+    "severity_confidence": 0.48,
+    "p_escalate": 0.41,
+    "p_false_positive": 0.61,
+    "attack_family": "data_access",
+    "attack_family_confidence": 1.0,
+    "needs_human_review": true,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 959.4,
+   "created_at": "2026-09-25T15:57:49.739745+00:00"
+  },
+  {
+   "evidence_hash": "97d318e53c6b8ca24d13",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.58,
+    "disposition_probabilities": {
+     "malicious": 0.0,
+     "suspicious": 0.31,
+     "uncertain": 0.01,
+     "benign": 0.6799999999999999
+    },
+    "p_malicious": 0.0,
+    "severity_score": 2.44,
+    "severity_normalized": 0.61,
+    "severity_confidence": 0.49,
+    "p_escalate": 0.26,
+    "p_false_positive": 0.73,
+    "attack_family": "other",
+    "attack_family_confidence": 0.71,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 901.0,
+   "created_at": "2026-09-25T15:57:49.740273+00:00"
+  },
+  {
+   "evidence_hash": "b0597e185ab9dfe74aae",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.91,
+    "disposition_probabilities": {
+     "malicious": 0.0,
+     "benign": 0.93,
+     "uncertain": 0.0,
+     "suspicious": 0.07
+    },
+    "p_malicious": 0.0,
+    "severity_score": 1.31,
+    "severity_normalized": 0.3275,
+    "severity_confidence": 0.0,
+    "p_escalate": 0.22,
+    "p_false_positive": 0.84,
+    "attack_family": "other",
+    "attack_family_confidence": 0.99,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 953.0,
+   "created_at": "2026-09-25T15:57:49.740798+00:00"
+  },
+  {
+   "evidence_hash": "d909d47ef4a4c4c8eba1",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.77,
+    "disposition_probabilities": {
+     "suspicious": 0.17,
+     "uncertain": 0.01,
+     "malicious": 0.0,
+     "benign": 0.82
+    },
+    "p_malicious": 0.0,
+    "severity_score": 1.92,
+    "severity_normalized": 0.48,
+    "severity_confidence": 0.02,
+    "p_escalate": 0.28,
+    "p_false_positive": 0.76,
+    "attack_family": "other",
+    "attack_family_confidence": 0.96,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 935.6,
+   "created_at": "2026-09-25T15:57:49.741323+00:00"
+  },
+  {
+   "evidence_hash": "2f9970060eef581920d6",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.52,
+    "disposition_probabilities": {
+     "benign": 0.64,
+     "suspicious": 0.36,
+     "malicious": 0.0,
+     "uncertain": 0.0
+    },
+    "p_malicious": 0.0,
+    "severity_score": 3.17,
+    "severity_normalized": 0.7925,
+    "severity_confidence": 0.31,
+    "p_escalate": 0.36,
+    "p_false_positive": 0.72,
+    "attack_family": "data_access",
+    "attack_family_confidence": 0.8,
+    "needs_human_review": true,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1036.0,
+   "created_at": "2026-09-25T15:57:49.741843+00:00"
+  },
+  {
+   "evidence_hash": "14fafda2fc7a302e8d78",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.81,
+    "disposition_probabilities": {
+     "uncertain": 0.0,
+     "malicious": 0.0,
+     "benign": 0.86,
+     "suspicious": 0.14
+    },
+    "p_malicious": 0.0,
+    "severity_score": 1.64,
+    "severity_normalized": 0.41,
+    "severity_confidence": 0.0,
+    "p_escalate": 0.25,
+    "p_false_positive": 0.82,
+    "attack_family": "other",
+    "attack_family_confidence": 0.98,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 941.2,
+   "created_at": "2026-09-25T15:57:49.742363+00:00"
+  },
+  {
+   "evidence_hash": "b57b09a9d560a1aa9616",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.75,
+    "disposition_probabilities": {
+     "suspicious": 0.18,
+     "malicious": 0.0,
+     "uncertain": 0.01,
+     "benign": 0.81
+    },
+    "p_malicious": 0.0,
+    "severity_score": 1.84,
+    "severity_normalized": 0.46,
+    "severity_confidence": 0.0,
+    "p_escalate": 0.27,
+    "p_false_positive": 0.78,
+    "attack_family": "other",
+    "attack_family_confidence": 0.98,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 943.0,
+   "created_at": "2026-09-25T15:57:49.742805+00:00"
+  },
+  {
+   "evidence_hash": "51af0c0c21c18b31167a",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.73,
+    "disposition_probabilities": {
+     "malicious": 0.0,
+     "uncertain": 0.01,
+     "suspicious": 0.2,
+     "benign": 0.79
+    },
+    "p_malicious": 0.0,
+    "severity_score": 2.38,
+    "severity_normalized": 0.595,
+    "severity_confidence": 0.34,
+    "p_escalate": 0.3,
+    "p_false_positive": 0.76,
+    "attack_family": "other",
+    "attack_family_confidence": 0.97,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1103.1,
+   "created_at": "2026-09-25T17:04:02.655927+00:00"
+  },
+  {
+   "evidence_hash": "7401306f829c79972a9b",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.72,
+    "disposition_probabilities": {
+     "malicious": 0.0,
+     "benign": 0.79,
+     "suspicious": 0.2,
+     "uncertain": 0.01
+    },
+    "p_malicious": 0.0,
+    "severity_score": 1.95,
+    "severity_normalized": 0.4875,
+    "severity_confidence": 0.43,
+    "p_escalate": 0.23,
+    "p_false_positive": 0.76,
+    "attack_family": "other",
+    "attack_family_confidence": 0.98,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1043.5,
+   "created_at": "2026-09-25T17:04:02.658339+00:00"
+  },
+  {
+   "evidence_hash": "42f95fd04792e59c8742",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.69,
+    "disposition_probabilities": {
+     "suspicious": 0.22,
+     "malicious": 0.0,
+     "uncertain": 0.01,
+     "benign": 0.77
+    },
+    "p_malicious": 0.0,
+    "severity_score": 1.7,
+    "severity_normalized": 0.425,
+    "severity_confidence": 0.43,
+    "p_escalate": 0.23,
+    "p_false_positive": 0.67,
+    "attack_family": "other",
+    "attack_family_confidence": 0.78,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1106.0,
+   "created_at": "2026-09-25T17:04:02.659289+00:00"
+  },
+  {
+   "evidence_hash": "3618460ffa1f6750c083",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.8,
+    "disposition_probabilities": {
+     "benign": 0.86,
+     "suspicious": 0.14,
+     "malicious": 0.0,
+     "uncertain": 0.0
+    },
+    "p_malicious": 0.0,
+    "severity_score": 1.82,
+    "severity_normalized": 0.455,
+    "severity_confidence": 0.0,
+    "p_escalate": 0.25,
+    "p_false_positive": 0.79,
+    "attack_family": "other",
+    "attack_family_confidence": 0.97,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1229.6,
+   "created_at": "2026-09-25T17:04:02.660125+00:00"
+  },
+  {
+   "evidence_hash": "0aa56afb244e723e6da6",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "benign",
+    "disposition_confidence": 0.84,
+    "disposition_probabilities": {
+     "malicious": 0.0,
+     "benign": 0.87,
+     "suspicious": 0.12,
+     "uncertain": 0.01
+    },
+    "p_malicious": 0.0,
+    "severity_score": 1.8,
+    "severity_normalized": 0.45,
+    "severity_confidence": 0.49,
+    "p_escalate": 0.2,
+    "p_false_positive": 0.8,
+    "attack_family": "credential",
+    "attack_family_confidence": 0.71,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1063.1,
+   "created_at": "2026-09-25T17:04:02.660967+00:00"
+  },
+  {
+   "evidence_hash": "4d0d3981a08012aecf06",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "suspicious",
+    "disposition_confidence": 0.8,
+    "disposition_probabilities": {
+     "suspicious": 0.85,
+     "malicious": 0.0,
+     "uncertain": 0.02,
+     "benign": 0.13
+    },
+    "p_malicious": 0.0,
+    "severity_score": 2.83,
+    "severity_normalized": 0.7075,
+    "severity_confidence": 0.64,
+    "p_escalate": 0.45,
+    "p_false_positive": 0.61,
+    "attack_family": "other",
+    "attack_family_confidence": 0.57,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1112.2,
+   "created_at": "2026-09-25T17:04:02.661553+00:00"
+  },
+  {
+   "evidence_hash": "6674e894542585b11ef8",
+   "provider": "jev",
+   "model": "jev-latest",
+   "decision": {
+    "disposition": "suspicious",
+    "disposition_confidence": 0.83,
+    "disposition_probabilities": {
+     "uncertain": 0.01,
+     "suspicious": 0.87,
+     "benign": 0.12,
+     "malicious": 0.0
+    },
+    "p_malicious": 0.0,
+    "severity_score": 2.47,
+    "severity_normalized": 0.6175,
+    "severity_confidence": 0.51,
+    "p_escalate": 0.41,
+    "p_false_positive": 0.6,
+    "attack_family": "execution",
+    "attack_family_confidence": 0.48,
+    "needs_human_review": false,
+    "served_model": "jev-1.13.0"
+   },
+   "latency_ms": 1185.1,
+   "created_at": "2026-09-25T17:04:02.662015+00:00"
+  }
+ ],
+ "briefs": [
+  {
+   "evidence_hash": "303fece3a867eb6afbae",
+   "provider": "mercury",
+   "model": "mercury-2.5",
+   "prompt_version": "v2",
+   "output": {
+    "executive_summary": "The finance-admin account was compromised via brute force from IP 203.0.113.27, followed by successful authentication, PowerShell-based command execution, credential dumping, privilege escalation via group and role modifications, persistence via new services, and bulk access to sensitive payment records in the finance-db.",
+    "observed_facts": [
+     {
+      "fact": "95 failed logins for finance-admin from IP 203.0.113.27 within 10 minutes",
+      "alert_ids": [
+       "ALT-000433",
+       "ALT-000434",
+       "ALT-000436",
+       "ALT-000437",
+       "ALT-000438"
+      ]
+     },
+     {
+      "fact": "Successful login for finance-admin after repeated failures from IP 203.0.113.27",
+      "alert_ids": [
+       "ALT-000552"
+      ]
+     },
+     {
+      "fact": "New device login and first-seen ASN for finance-admin",
+      "alert_ids": [
+       "ALT-000566",
+       "ALT-000569",
+       "ALT-000572"
+      ]
+     },
+     {
+      "fact": "Encoded PowerShell commands executed by finance-admin",
+      "alert_ids": [
+       "ALT-000588",
+       "ALT-000603",
+       "ALT-000609",
+       "ALT-000613"
+      ]
+     },
+     {
+      "fact": "certutil used to download a remote script from IP 203.0.113.27",
+      "alert_ids": [
+       "ALT-000594",
+       "ALT-000596"
+      ]
+     },
+     {
+      "fact": "Account/group enumeration commands executed by finance-admin",
+      "alert_ids": [
+       "ALT-000628",
+       "ALT-000630",
+       "ALT-000631",
+       "ALT-000632"
+      ]
+     },
+     {
+      "fact": "finance-admin added to privileged group Finance-DB-Owners",
+      "alert_ids": [
+       "ALT-000619",
+       "ALT-000621",
+       "ALT-000622"
+      ]
+     },
+     {
+      "fact": "finance-admin assigned privileged role Payments Approver",
+      "alert_ids": [
+       "ALT-000625",
+       "ALT-000626"
+      ]
+     },
+     {
+      "fact": "New Windows services installed on FINANCE-SRV-03",
+      "alert_ids": [
+       "ALT-000633",
+       "ALT-000634",
+       "ALT-000636"
+      ]
+     },
+     {
+      "fact": "28 sensitive resource reads from finance-db totaling 281,644 rows",
+      "alert_ids": [
+       "ALT-000637",
+       "ALT-000638",
+       "ALT-000640",
+       "ALT-000641",
+       "ALT-000643"
+      ]
+     }
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The adversary exfiltrated payment data from finance-db",
+      "confidence": 0.85
+     },
+     {
+      "hypothesis": "The finance-admin credentials were compromised through password guessing",
+      "confidence": 0.95
+     },
+     {
+      "hypothesis": "The adversary established persistence for future access",
+      "confidence": 0.9
+     }
+    ],
+    "why_high_risk": [
+     "Critical asset (finance-db) accessed with 281,644 rows read",
+     "Privileged account (finance-admin) compromised with full domain privileges",
+     "Complete attack chain from initial access to data collection and persistence",
+     "New persistence mechanisms (services, account modifications) added"
+    ],
+    "affected_entities": [
+     "finance-admin",
+     "FINANCE-SRV-03",
+     "finance-db"
+    ],
+    "mitre_explanation": [
+     {
+      "technique_id": "T1110",
+      "reason": "95 failed logins for finance-admin from an unfamiliar IP within 10 minutes",
+      "technique_name": "Brute Force"
+     },
+     {
+      "technique_id": "T1078",
+      "reason": "Successful login after repeated failures from a new source",
+      "technique_name": "Valid Accounts"
+     },
+     {
+      "technique_id": "T1003.001",
+      "reason": "Process access/dump of LSASS memory observed",
+      "technique_name": "OS Credential Dumping: LSASS Memory"
+     },
+     {
+      "technique_id": "T1059.001",
+      "reason": "Multiple PowerShell executions including encoded commands",
+      "technique_name": "Command and Scripting Interpreter: PowerShell"
+     },
+     {
+      "technique_id": "T1105",
+      "reason": "certutil used to download a remote script from attacker IP",
+      "technique_name": "Ingress Tool Transfer"
+     },
+     {
+      "technique_id": "T1098.007",
+      "reason": "finance-admin added to privileged groups",
+      "technique_name": "Account Manipulation: Additional Local or Domain Groups"
+     },
+     {
+      "technique_id": "T1087.002",
+      "reason": "Domain account/group enumeration commands executed",
+      "technique_name": "Account Discovery: Domain Account"
+     },
+     {
+      "technique_id": "T1027",
+      "reason": "Encoded/obfuscated command lines observed",
+      "technique_name": "Obfuscated Files or Information"
+     },
+     {
+      "technique_id": "T1543.003",
+      "reason": "New Windows services installed for persistence",
+      "technique_name": "Create or Modify System Process: Windows Service"
+     }
+    ],
+    "investigation_checks": [
+     "Check for data exfiltration via network egress to external IPs around 03:09-03:19 UTC",
+     "Review finance-db audit logs for any export, dump, or replication activity",
+     "Analyze the downloaded script t.ps1 from IP 203.0.113.27 for malicious payload",
+     "Identify all accounts added to Finance-DB-Owners group and their access history",
+     "Review FINANCE-SRV-03 process execution logs for LSASS access",
+     "Check firewall and DNS logs for C2 communications from FINANCE-SRV-03"
+    ],
+    "uncertainties": [
+     "Whether the downloaded t.ps1 script was executed and its purpose",
+     "If any data was actually exfiltrated off the network",
+     "How the initial credentials were obtained (brute force vs prior compromise)",
+     "Whether other accounts were targeted or compromised"
+    ],
+    "overall_confidence": 0.92
+   },
+   "output_hash": "28301bc48cd26d752e8f",
+   "validation": {
+    "schema_valid": true,
+    "citations_checked": 32,
+    "invalid_citations": [],
+    "unknown_techniques": [],
+    "dropped_uncited_facts": 0,
+    "errors": []
+   },
+   "latency_ms": 4881.9,
+   "created_at": "2026-09-25T15:57:54.835605+00:00"
+  },
+  {
+   "evidence_hash": "7cfa1cff510b0f9a33f2",
+   "provider": "mercury",
+   "model": "mercury-2.5",
+   "prompt_version": "v2",
+   "output": {
+    "executive_summary": "Credential theft via LSASS dump on DC-01 using svc-backup, followed by account discovery, privilege escalation, persistence, lateral movement to FILE-01, bulk access to hr-records, and large HTTPS outbound transfers.",
+    "observed_facts": [
+     {
+      "fact": "svc-backup performed RDP logons to DC-01",
+      "alert_ids": [
+       "ALT-009240",
+       "ALT-009242",
+       "ALT-009248"
+      ]
+     },
+     {
+      "fact": "svc-backup executed rundll32.exe to dump LSASS memory on DC-01",
+      "alert_ids": [
+       "ALT-009251",
+       "ALT-009254",
+       "ALT-009256",
+       "ALT-009262"
+      ]
+     },
+     {
+      "fact": "svc-backup ran account discovery commands on DC-01",
+      "alert_ids": [
+       "ALT-009265",
+       "ALT-009267",
+       "ALT-009269",
+       "ALT-009272",
+       "ALT-009274"
+      ]
+     },
+     {
+      "fact": "Two new Windows services installed on DC-01",
+      "alert_ids": [
+       "ALT-009291",
+       "ALT-009293"
+      ]
+     },
+     {
+      "fact": "Three privileged role assignments to svc-backup on DC-01",
+      "alert_ids": [
+       "ALT-009296",
+       "ALT-009298",
+       "ALT-009300"
+      ]
+     },
+     {
+      "fact": "svc-backup performed RDP logons to FILE-01",
+      "alert_ids": [
+       "ALT-009306",
+       "ALT-009312",
+       "ALT-009316",
+       "ALT-009321",
+       "ALT-009325"
+      ]
+     },
+     {
+      "fact": "svc-backup bulk read 1800 hr-records from FILE-01",
+      "alert_ids": [
+       "ALT-009327",
+       "ALT-009332",
+       "ALT-009335",
+       "ALT-009339",
+       "ALT-009344",
+       "ALT-009347",
+       "ALT-009352",
+       "ALT-009353",
+       "ALT-009359",
+       "ALT-009360"
+      ]
+     },
+     {
+      "fact": "Large outbound HTTPS transfers from FILE-01 to 203.0.113.140",
+      "alert_ids": [
+       "ALT-009363",
+       "ALT-009364",
+       "ALT-009367",
+       "ALT-009371",
+       "ALT-009404"
+      ]
+     }
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Credential theft enabled privilege escalation and lateral movement",
+      "confidence": 0.9
+     },
+     {
+      "hypothesis": "The attacker used svc-backup's legitimate role to move laterally and access data",
+      "confidence": 0.75
+     },
+     {
+      "hypothesis": "Outbound transfers likely represent exfiltration of hr-records",
+      "confidence": 0.85
+     }
+    ],
+    "why_high_risk": [
+     "Credential theft from domain controller",
+     "Privilege escalation to Backup Operators",
+     "Persistence via new Windows services",
+     "Bulk access to HR data",
+     "Large data transfers to external host"
+    ],
+    "affected_entities": [
+     "DC-01",
+     "FILE-01",
+     "svc-backup",
+     "hr-records"
+    ],
+    "mitre_explanation": [
+     {
+      "technique_id": "T1003.001",
+      "reason": "LSASS memory dump via rundll32.exe",
+      "technique_name": "OS Credential Dumping: LSASS Memory"
+     },
+     {
+      "technique_id": "T1087.002",
+      "reason": "Domain account discovery via net user /domain",
+      "technique_name": "Account Discovery: Domain Account"
+     },
+     {
+      "technique_id": "T1098",
+      "reason": "Account manipulation via role assignments",
+      "technique_name": "Account Manipulation"
+     },
+     {
+      "technique_id": "T1021.001",
+      "reason": "RDP lateral movement",
+      "technique_name": "Remote Services: Remote Desktop Protocol"
+     },
+     {
+      "technique_id": "T1039",
+      "reason": "Bulk data access from network share",
+      "technique_name": "Data from Network Shared Drive"
+     },
+     {
+      "technique_id": "T1048",
+      "reason": "Large HTTPS data transfers",
+      "technique_name": "Exfiltration Over Alternative Protocol"
+     },
+     {
+      "technique_id": "T1543.003",
+      "reason": "New Windows services installed",
+      "technique_name": "Create or Modify System Process: Windows Service"
+     }
+    ],
+    "investigation_checks": [
+     "Review svc-backup account activity for prior anomalies",
+     "Audit new Windows services BkpAgentUpd creation and configuration",
+     "Analyze rundll32.exe command lines and parent processes",
+     "Validate baseline for svc-backup on DC-01 and FILE-01",
+     "Investigate external host 203.0.113.140 reputation",
+     "Review file server access logs on FILE-01 for hr-records"
+    ],
+    "uncertainties": [
+     "Whether rundll32.exe was legitimately invoked or abused",
+     "Whether data transfers resulted in successful exfiltration",
+     "Whether additional lateral movement or persistence exists beyond alerts"
+    ],
+    "overall_confidence": 0.8
+   },
+   "output_hash": "24690460a4bfe78a487c",
+   "validation": {
+    "schema_valid": true,
+    "citations_checked": 37,
+    "invalid_citations": [],
+    "unknown_techniques": [],
+    "dropped_uncited_facts": 0,
+    "errors": []
+   },
+   "latency_ms": 2920.5,
+   "created_at": "2026-09-25T15:57:57.786042+00:00"
+  },
+  {
+   "evidence_hash": "f729cec87efc82994a5c",
+   "provider": "mercury",
+   "model": "mercury-2.5",
+   "prompt_version": "v2",
+   "output": {
+    "executive_summary": "A high-severity incident (INC-0003) occurred on 2026-09-14 involving a password spray attack from IP 198.51.100.77 against the identity provider (IDP-01). The attack involved 220 alerts, including over 190 failed login attempts across 161 distinct users within approximately 27 minutes. Successful authentications were observed for at least two accounts (t.nguyen, helpdesk-02) from the malicious IP, with additional successful logins from the same source for raj.lopez. This indicates successful credential compromise for specific privileged and standard accounts.",
+    "observed_facts": [
+     {
+      "fact": "Multiple failed login attempts from source IP 198.51.100.77 targeting numerous user accounts on IDP-01.",
+      "alert_ids": [
+       "ALT-000748",
+       "ALT-000749",
+       "ALT-000750",
+       "ALT-000752",
+       "ALT-000753",
+       "ALT-000771"
+      ]
+     },
+     {
+      "fact": "Successful login after repeated failures for user t.nguyen from source IP 198.51.100.77.",
+      "alert_ids": [
+       "ALT-001004",
+       "ALT-001007"
+      ]
+     },
+     {
+      "fact": "Successful login after repeated failures for user helpdesk-02 from source IP 198.51.100.77.",
+      "alert_ids": [
+       "ALT-001013"
+      ]
+     },
+     {
+      "fact": "Sign-in from new source for user raj.lopez from IP 198.51.100.77.",
+      "alert_ids": [
+       "ALT-001025"
+      ]
+     },
+     {
+      "fact": "Sign-in from new source for user t.nguyen from IP 198.51.100.77.",
+      "alert_ids": [
+       "ALT-001007",
+       "ALT-001008",
+       "ALT-001012"
+      ]
+     }
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The attacker successfully obtained valid credentials for t.nguyen and helpdesk-02 and may have used them to access sensitive systems or data.",
+      "confidence": 0.8
+     },
+     {
+      "hypothesis": "The attacker may be planning to use the compromised accounts for lateral movement or privilege escalation, given the IT department involvement (helpdesk-02).",
+      "confidence": 0.7
+     },
+     {
+      "hypothesis": "Exfiltration or further malicious activity occurred post-compromise but is not captured in the current evidence window.",
+      "confidence": 0.5
+     }
+    ],
+    "why_high_risk": [
+     "Successful compromise of accounts including a helpdesk account with higher privileges (helpdesk-02).",
+     "The attack targeted sensitive identity infrastructure (IDP-01).",
+     "Activity occurred outside normal business hours for several affected users.",
+     "The source IP was never previously seen for some targeted users (e.g., raj.lopez, t.nguyen)."
+    ],
+    "affected_entities": [
+     "IDP-01",
+     "t.nguyen",
+     "helpdesk-02",
+     "raj.lopez",
+     "198.51.100.77"
+    ],
+    "mitre_explanation": [
+     {
+      "technique_id": "T1110.003",
+      "reason": "Evidence of numerous failed logins (195+) across many accounts from a single source within a short timeframe, consistent with password spraying.",
+      "technique_name": "Brute Force: Password Spraying"
+     },
+     {
+      "technique_id": "T1078",
+      "reason": "Successful authentications observed after prior failures from a new source for compromised accounts, indicating valid account abuse.",
+      "technique_name": "Valid Accounts"
+     }
+    ],
+    "investigation_checks": [
+     "Review post-compromise activity logs for t.nguyen, helpdesk-02, and raj.lopez to detect unauthorized access or data exfiltration.",
+     "Correlate with network logs to identify outbound connections from compromised accounts or sessions.",
+     "Check if any sensitive resources were accessed or modified by the affected accounts.",
+     "Analyze the geo-IP data for the malicious IP (198.51.100.77) to determine its origin and hosting provider.",
+     "Reset credentials and enforce MFA for all compromised accounts."
+    ],
+    "uncertainties": [
+     "Exact credentials used or if multiple passwords were attempted.",
+     "Whether any lateral movement or data exfiltration occurred after successful login.",
+     "The full scope of accounts that may have been compromised beyond those with explicit success alerts."
+    ],
+    "overall_confidence": 0.85
+   },
+   "output_hash": "2402e16774f118c7b064",
+   "validation": {
+    "schema_valid": true,
+    "citations_checked": 13,
+    "invalid_citations": [],
+    "unknown_techniques": [],
+    "dropped_uncited_facts": 0,
+    "errors": []
+   },
+   "latency_ms": 3377.8,
+   "created_at": "2026-09-25T15:58:01.208727+00:00"
+  },
+  {
+   "evidence_hash": "572956a542c99c944056",
+   "provider": "mercury",
+   "model": "mercury-2.5",
+   "prompt_version": "v2",
+   "output": {
+    "executive_summary": "Account m.rossi experienced repeated MFA push requests from IP 192.0.2.201, followed by successful sign-ins from that same IP and extensive mailbox API reads totaling over 2,000 items. The source IP was previously unseen for this user. The incident spans 34 minutes on 2026-09-14 with 60 alerts. Evidence supports credential attack and valid account abuse patterns; however, no direct exfiltration evidence (e.g., outbound transfers or data staging) is provided.",
+    "observed_facts": [
+     {
+      "fact": "Repeated MFA push requests targeted m.rossi from IP 192.0.2.201 with push results denoted as denied.",
+      "alert_ids": [
+       "ALT-005125",
+       "ALT-005134",
+       "ALT-005138",
+       "ALT-005146",
+       "ALT-005154",
+       "ALT-005159",
+       "ALT-005163",
+       "ALT-005169",
+       "ALT-005174",
+       "ALT-005186",
+       "ALT-005193",
+       "ALT-005203",
+       "ALT-005208",
+       "ALT-005214",
+       "ALT-005217"
+      ]
+     },
+     {
+      "fact": "Successful sign-ins occurred from IP 192.0.2.201 for m.rossi in the APAC-SG region using python-requests client.",
+      "alert_ids": [
+       "ALT-005226",
+       "ALT-005231",
+       "ALT-005234",
+       "ALT-005240",
+       "ALT-005244",
+       "ALT-005251",
+       "ALT-005258",
+       "ALT-005275",
+       "ALT-005280"
+      ]
+     },
+     {
+      "fact": "Mailbox API reads (Mail.Read) occurred from IP 192.0.2.201 for m.rossi, accessing hundreds of items per call.",
+      "alert_ids": [
+       "ALT-005293",
+       "ALT-005298",
+       "ALT-005303",
+       "ALT-005311",
+       "ALT-005324",
+       "ALT-005331",
+       "ALT-005339",
+       "ALT-005343",
+       "ALT-005350",
+       "ALT-005355",
+       "ALT-005361",
+       "ALT-005370",
+       "ALT-005378",
+       "ALT-005384",
+       "ALT-005550"
+      ]
+     },
+     {
+      "fact": "IP 192.0.2.201 was never seen for m.rossi prior to this incident.",
+      "alert_ids": [
+       "ALT-005234",
+       "ALT-005240",
+       "ALT-005244"
+      ]
+     },
+     {
+      "fact": "The incident involves account m.rossi from the sales department, privilege level 1, normal host WS-1232.",
+      "alert_ids": [
+       "ALT-005091",
+       "ALT-005125",
+       "ALT-005226"
+      ]
+     }
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Adversary bypassed MFA via fatigue attacks and used the compromised account to exfiltrate emails.",
+      "confidence": 0.78
+     },
+     {
+      "hypothesis": "The adversary staged data on the endpoint for later exfiltration since no outbound transfer evidence is present.",
+      "confidence": 0.55
+     },
+     {
+      "hypothesis": "The adversary may be conducting lateral movement or privilege escalation via this account.",
+      "confidence": 0.45
+     }
+    ],
+    "why_high_risk": [
+     "High-volume mailbox data access via API (35 mailbox_access alerts) indicating potential exfiltration.",
+     "Successful account takeover indicators: MFA fatigue followed by sign-ins from a new, geographically inconsistent IP.",
+     "The user has sales department context, increasing potential business impact."
+    ],
+    "affected_entities": [
+     "m.rossi",
+     "WS-1232",
+     "mailbox:m.rossi"
+    ],
+    "mitre_explanation": [
+     {
+      "technique_id": "T1621",
+      "reason": "Repeated MFA push requests were sent to the user from a single IP, consistent with MFA fatigue attacks.",
+      "technique_name": "Multi-Factor Authentication Request Generation"
+     },
+     {
+      "technique_id": "T1078.004",
+      "reason": "Adversary used valid cloud account m.rossi to authenticate and access resources from an anomalous location and client.",
+      "technique_name": "Valid Accounts: Cloud Accounts"
+     },
+     {
+      "technique_id": "T1114.002",
+      "reason": "High-volume Mail.Read API calls were made against m.rossi's mailbox, consistent with remote email collection.",
+      "technique_name": "Email Collection: Remote Email Collection"
+     }
+    ],
+    "investigation_checks": [
+     "Review mailbox access logs and API audit trails to itemize accessed emails and check for deletions or forwarding rules.",
+     "Inspect the host WS-1232 for signs of compromise, persistence, or data staging artifacts.",
+     "Validate the legitimacy of IP 192.0.2.201 via geolocation, ASN, and correlation with known malicious infrastructure.",
+     "Check for anomalous outbound network flows from WS-1232 during and after the incident window.",
+     "Interview m.rossi regarding MFA prompt awareness and any recent credential disclosures.",
+     "Examine MFA policies and enable number-matching or step-up authentication for this account."
+    ],
+    "uncertainties": [
+     "No direct evidence of outbound data exfiltration or transfer was observed.",
+     "The success criteria of MFA fatigue prompts are not visible in logs (push_result shows 'denied').",
+     "Whether additional accounts were accessed or compromised remains unknown."
+    ],
+    "overall_confidence": 0.82
+   },
+   "output_hash": "9b0e681c24c1a428db8d",
+   "validation": {
+    "schema_valid": true,
+    "citations_checked": 45,
+    "invalid_citations": [],
+    "unknown_techniques": [],
+    "dropped_uncited_facts": 0,
+    "errors": []
+   },
+   "latency_ms": 4045.0,
+   "created_at": "2026-09-25T17:04:06.830583+00:00"
+  },
+  {
+   "evidence_hash": "c90072d87f27eb41c3a4",
+   "provider": "mercury",
+   "model": "mercury-2.5",
+   "prompt_version": "v2",
+   "output": {
+    "executive_summary": "User j.chen on WS-1234 opened a malicious Word macro document, leading to execution of PowerShell and other script interpreters, downloading of a remote binary via certutil, creation of scheduled tasks, and account discovery activities between 2026-09-14T10:12:00 and 2026-09-14T10:35:04 UTC. Outbound connections to a suspicious domain were blocked by firewall.",
+    "observed_facts": [
+     {
+      "fact": "User j.chen opened a suspicious Word macro attachment (invoice_0914.docm)",
+      "alert_ids": [
+       "ALT-003134"
+      ]
+     },
+     {
+      "fact": "winword.exe spawned command shells multiple times",
+      "alert_ids": [
+       "ALT-003142",
+       "ALT-003147",
+       "ALT-003149"
+      ]
+     },
+     {
+      "fact": "PowerShell was executed multiple times with some commands encoded",
+      "alert_ids": [
+       "ALT-003153",
+       "ALT-003164",
+       "ALT-003166",
+       "ALT-003183",
+       "ALT-003201"
+      ]
+     },
+     {
+      "fact": "certutil.exe was used to download a remote file",
+      "alert_ids": [
+       "ALT-003161",
+       "ALT-003212"
+      ]
+     },
+     {
+      "fact": "Outbound connections to update-check.example.test were blocked by firewall",
+      "alert_ids": [
+       "ALT-003159",
+       "ALT-003163",
+       "ALT-003190",
+       "ALT-003205"
+      ]
+     },
+     {
+      "fact": "Scheduled tasks were created via PowerShell",
+      "alert_ids": [
+       "ALT-003406",
+       "ALT-003411",
+       "ALT-003413",
+       "ALT-003417"
+      ]
+     },
+     {
+      "fact": "Account discovery/enumeration was performed",
+      "alert_ids": [
+       "ALT-003419",
+       "ALT-003420",
+       "ALT-003426",
+       "ALT-003433",
+       "ALT-003444"
+      ]
+     }
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The malicious document executed a macro that downloaded and ran a secondary payload",
+      "confidence": 0.85
+     },
+     {
+      "hypothesis": "The attacker attempted to establish persistence via scheduled tasks",
+      "confidence": 0.8
+     },
+     {
+      "hypothesis": "The attacker was gathering account information for lateral movement or privilege escalation",
+      "confidence": 0.75
+     },
+     {
+      "hypothesis": "Data exfiltration was attempted but blocked by firewall",
+      "confidence": 0.6
+     }
+    ],
+    "why_high_risk": [
+     "Multiple execution techniques (PowerShell, wscript, certutil) used in sequence",
+     "Encoded commands indicate attempt to evade detection",
+     "Persistence established via scheduled tasks",
+     "Account discovery suggests reconnaissance for further compromise",
+     "High alert correlation confidence (0.708) and attack chain strength (0.9)"
+    ],
+    "affected_entities": [
+     "WS-1234",
+     "j.chen"
+    ],
+    "mitre_explanation": [
+     {
+      "technique_id": "T1566.001",
+      "reason": "Spearphishing attachment (invoice_0914.docm) was opened by user j.chen",
+      "technique_name": "Phishing: Spearphishing Attachment"
+     },
+     {
+      "technique_id": "T1204.002",
+      "reason": "Malicious Word document execution led to shell spawning",
+      "technique_name": "User Execution: Malicious File"
+     },
+     {
+      "technique_id": "T1059.001",
+      "reason": "Multiple PowerShell executions observed, including encoded commands",
+      "technique_name": "Command and Scripting Interpreter: PowerShell"
+     },
+     {
+      "technique_id": "T1105",
+      "reason": "certutil used to download remote binary from update-check.example.test",
+      "technique_name": "Ingress Tool Transfer"
+     },
+     {
+      "technique_id": "T1027",
+      "reason": "Multiple encoded/obfuscated PowerShell command lines detected",
+      "technique_name": "Obfuscated Files or Information"
+     },
+     {
+      "technique_id": "T1053.005",
+      "reason": "Four scheduled tasks created via PowerShell",
+      "technique_name": "Scheduled Task/Job: Scheduled Task"
+     },
+     {
+      "technique_id": "T1087",
+      "reason": "Account discovery activities observed via PowerShell",
+      "technique_name": "Account Discovery"
+     }
+    ],
+    "investigation_checks": [
+     "Examine contents and behavior of invoice_0914.docm macro",
+     "Review scheduled tasks created on WS-1234 for persistence",
+     "Check for file artifacts from downloaded a.bin",
+     "Analyze PowerShell logs for decoded commands and payloads",
+     "Verify firewall logs for blocked outbound connections to update-check.example.test",
+     "Review j.chen's account for signs of credential misuse or lateral movement"
+    ],
+    "uncertainties": [
+     "Unknown if downloaded payload executed successfully",
+     "Unknown if any data was exfiltrated before firewall blocks",
+     "Unknown attacker identity and sophistication level",
+     "Unknown if other hosts were compromised from this initial access"
+    ],
+    "overall_confidence": 0.78
+   },
+   "output_hash": "d4ea83aad623bf0a788e",
+   "validation": {
+    "schema_valid": true,
+    "citations_checked": 24,
+    "invalid_citations": [],
+    "unknown_techniques": [],
+    "dropped_uncited_facts": 0,
+    "errors": []
+   },
+   "latency_ms": 3058.3,
+   "created_at": "2026-09-25T17:04:09.919551+00:00"
+  },
+  {
+   "evidence_hash": "52033ac415f89d787f24",
+   "provider": "mercury",
+   "model": "mercury-2.5",
+   "prompt_version": "v2",
+   "output": {
+    "executive_summary": "The svc-maint service account executed 120 alerts on critical production finance server FINANCE-SRV-03 between 14:00-15:01 UTC, 2026-09-14. Activity includes PowerShell executions, 8 scheduled tasks, 3 privilege group additions, and 2 new service installations. All alerts reference change ticket CHG-20260914-118. While this may represent authorized maintenance, the persistence mechanisms and privilege escalation warrant investigation to confirm legitimacy.",
+    "observed_facts": [
+     {
+      "fact": "Service account svc-maint logged into FINANCE-SRV-03 at 14:00:00 UTC",
+      "alert_ids": [
+       "ALT-005830",
+       "ALT-005836"
+      ]
+     },
+     {
+      "fact": "PowerShell script apply_patches.ps1 executed 20+ times between 14:01-15:00 UTC",
+      "alert_ids": [
+       "ALT-005846",
+       "ALT-005856",
+       "ALT-005864",
+       "ALT-005912",
+       "ALT-005920"
+      ]
+     },
+     {
+      "fact": "8 scheduled tasks created by svc-maint between 14:05-14:15 UTC",
+      "alert_ids": [
+       "ALT-005901",
+       "ALT-005967",
+       "ALT-005996",
+       "ALT-006014",
+       "ALT-006113"
+      ]
+     },
+     {
+      "fact": "svc-maint added to 3 privileged groups between 14:07-14:36 UTC",
+      "alert_ids": [
+       "ALT-005928",
+       "ALT-006292",
+       "ALT-006492"
+      ]
+     },
+     {
+      "fact": "2 new Windows services installed between 14:57-15:01 UTC",
+      "alert_ids": [
+       "ALT-006652",
+       "ALT-006745"
+      ]
+     },
+     {
+      "fact": "All alerts reference change ticket CHG-20260914-118",
+      "alert_ids": [
+       "ALT-005830",
+       "ALT-005836",
+       "ALT-005846",
+       "ALT-005928",
+       "ALT-006652"
+      ]
+     }
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Authorized maintenance activity under change ticket CHG-20260914-118 that was misconfigured with persistence mechanisms",
+      "confidence": 0.45
+     },
+     {
+      "hypothesis": "Compromised svc-maint credentials used to establish persistence on critical finance server",
+      "confidence": 0.35
+     },
+     {
+      "hypothesis": "Legitimate patching activity that escalated privileges and created persistence for future maintenance",
+      "confidence": 0.2
+     }
+    ],
+    "why_high_risk": [
+     "Criticality 5/5 finance production server (FINANCE-SRV-03) is affected",
+     "Service account with privilege level 3 performed actions requiring elevated permissions",
+     "Persistence established via 2 new services and 8 scheduled tasks",
+     "Privilege escalation through 3 additions to privileged groups",
+     "Activity occurred over 1-hour window with high alert correlation (0.707)",
+     "No independent validation of change ticket CHG-20260914-118 available in evidence"
+    ],
+    "affected_entities": [
+     "FINANCE-SRV-03",
+     "svc-maint"
+    ],
+    "mitre_explanation": [
+     {
+      "technique_id": "T1059.001",
+      "reason": "20+ PowerShell executions of apply_patches.ps1 script by svc-maint account",
+      "technique_name": "Command and Scripting Interpreter: PowerShell"
+     },
+     {
+      "technique_id": "T1098.007",
+      "reason": "3 additions to privileged groups attributed to svc-maint account",
+      "technique_name": "Account Manipulation: Additional Local or Domain Groups"
+     },
+     {
+      "technique_id": "T1543.003",
+      "reason": "2 new Windows services installed by svc-maint account",
+      "technique_name": "Create or Modify System Process: Windows Service"
+     },
+     {
+      "technique_id": "T1053.005",
+      "reason": "8 scheduled tasks created by svc-maint account for recurring execution",
+      "technique_name": "Scheduled Task/Job: Scheduled Task"
+     }
+    ],
+    "investigation_checks": [
+     "Verify change ticket CHG-20260914-118 in change management system and confirm authorizing personnel",
+     "Review what 3 privileged groups svc-maint was added to and whether this was intended",
+     "Inspect the 2 new Windows services for executable paths, command lines, and service account context",
+     "Examine scheduled task contents and commands to determine their purpose",
+     "Validate apply_patches.ps1 script hash and contents against authorized deployment repository",
+     "Check if svc-maint account activity aligns with known maintenance windows",
+     "Review FINANCE-SRV-03 patch status to confirm if apply_patches.ps1 executed successfully",
+     "Search for similar activity from svc-maint on other FIN hosts during this period"
+    ],
+    "uncertainties": [
+     "Change ticket CHG-20260914-118 legitimacy cannot be confirmed from available evidence",
+     "Whether privilege group additions were authorized or represent escalation",
+     "Purpose and behavior of the 2 new services installed",
+     "Intent behind scheduled tasks created during patch maintenance",
+     "Whether this activity was coordinated with infrastructure operations team"
+    ],
+    "overall_confidence": 0.707
+   },
+   "output_hash": "d7cad5924e7fb59f71bf",
+   "validation": {
+    "schema_valid": true,
+    "citations_checked": 22,
+    "invalid_citations": [],
+    "unknown_techniques": [],
+    "dropped_uncited_facts": 2,
+    "errors": []
+   },
+   "latency_ms": 2773.8,
+   "created_at": "2026-09-25T17:04:12.746129+00:00"
+  },
+  {
+   "evidence_hash": "c403604cd8c6c7c3c6aa",
+   "provider": "mercury",
+   "model": "mercury-2.5",
+   "prompt_version": "v2",
+   "output": {
+    "executive_summary": "A single medium-severity alert flagged a DNS query to an uncommon TLD by the finance-admin user on FINANCE-SRV-03 outside baseline hours. The process was teams.exe. Asset and identity criticality are high, but there is no evidence of a broader attack chain or confirmed data exfiltration.",
+    "observed_facts": [
+     {
+      "fact": "User finance-admin executed a DNS query to an uncommon TLD from host FINANCE-SRV-03.",
+      "alert_ids": [
+       "ALT-009042"
+      ]
+     },
+     {
+      "fact": "The activity occurred at 2026-09-14T19:15:10.802000+00:00, outside the user's baseline hours (08:00-18:00 UTC).",
+      "alert_ids": [
+       "ALT-009042"
+      ]
+     },
+     {
+      "fact": "The process associated with the query was teams.exe.",
+      "alert_ids": [
+       "ALT-009042"
+      ]
+     }
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The user may be attempting to exfiltrate data or establish C2 via DNS tunneling using a Teams-related process.",
+      "confidence": 0.35
+     },
+     {
+      "hypothesis": "The DNS query is benign (e.g., a misconfigured Teams feature or a false positive) and not malicious.",
+      "confidence": 0.65
+     }
+    ],
+    "why_high_risk": [
+     "High asset criticality (finance production server)",
+     "High identity privilege (finance admin)",
+     "Activity outside baseline hours",
+     "Uncommon TLD DNS query",
+     "Anomaly score above baseline"
+    ],
+    "affected_entities": [
+     "finance-admin",
+     "FINANCE-SRV-03",
+     "finance department"
+    ],
+    "mitre_explanation": [],
+    "investigation_checks": [
+     "Inspect endpoint logs on FINANCE-SRV-03 for other teams.exe activity around the alert time.",
+     "Check DNS logs for additional queries from this host/user to uncommon TLDs.",
+     "Review Teams audit logs to determine if the query was triggered by a legitimate Teams operation.",
+     "Verify the DNS destination's reputation and resolve the uncommon TLD.",
+     "Check for any file access or network connections from finance-admin around the alert time."
+    ],
+    "uncertainties": [
+     "No evidence of data exfiltration or malware execution.",
+     "No prior analyst verdicts for similar incidents involving finance-admin.",
+     "Unknown if teams.exe is authorized on this host for this user."
+    ],
+    "overall_confidence": 0.3
+   },
+   "output_hash": "047a43f9299ec846b48d",
+   "validation": {
+    "schema_valid": true,
+    "citations_checked": 3,
+    "invalid_citations": [],
+    "unknown_techniques": [],
+    "dropped_uncited_facts": 2,
+    "errors": []
+   },
+   "latency_ms": 2565.8,
+   "created_at": "2026-09-25T17:04:15.336046+00:00"
+  },
+  {
+   "evidence_hash": "11f13a145f8838595848",
+   "provider": "mercury",
+   "model": "mercury-2.5",
+   "prompt_version": "v2",
+   "output": {
+    "executive_summary": "Two failed authentication attempts for the finance-admin user occurred on the production FINANCE-SRV-03 server within 3 minutes on 2026-09-14. One failure was due to an expired session, and the other was due to a bad password. The user accessed from an IP not associated with their normal host baseline.",
+    "observed_facts": [
+     {
+      "fact": "Failed login attempt for user finance-admin due to expired_session",
+      "alert_ids": [
+       "ALT-002210"
+      ]
+     },
+     {
+      "fact": "Failed login attempt for user finance-admin due to bad_password",
+      "alert_ids": [
+       "ALT-002253"
+      ]
+     },
+     {
+      "fact": "Source IP 10.20.1.5 is not in user finance-admin's normal_hosts baseline",
+      "alert_ids": [
+       "ALT-002210",
+       "ALT-002253"
+      ]
+     },
+     {
+      "fact": "User finance-admin has privilege level 5 (high privilege)",
+      "alert_ids": [
+       "ALT-002210",
+       "ALT-002253"
+      ]
+     },
+     {
+      "fact": "Target host FINANCE-SRV-03 is a production finance application server",
+      "alert_ids": [
+       "ALT-002210",
+       "ALT-002253"
+      ]
+     }
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Attacker attempting brute force or credential stuffing against finance-admin account",
+      "confidence": 0.6
+     },
+     {
+      "hypothesis": "Finance-admin user misconfigured their device and accessed from wrong network",
+      "confidence": 0.4
+     }
+    ],
+    "why_high_risk": [
+     "High privilege user (finance-admin) targeted",
+     "Production finance server compromised",
+     "External/non-baseline IP address used"
+    ],
+    "affected_entities": [
+     "finance-admin",
+     "FINANCE-SRV-03",
+     "10.20.1.5"
+    ],
+    "mitre_explanation": [],
+    "investigation_checks": [
+     "Check finance-admin account for recent successful logins from unusual locations",
+     "Review FINANCE-SRV-03 logs for any successful finance-admin logins around the alert time",
+     "Verify if 10.20.1.5 is a known proxy, jump host, or compromised device",
+     "Check if finance-admin has MFA enabled and if any MFA prompts were generated",
+     "Review similar incidents INC-0031 and INC-0023 for patterns"
+    ],
+    "uncertainties": [
+     "Whether the bad_password attempt was manual or automated",
+     "Whether 10.20.1.5 is a legitimate but unregistered device",
+     "Whether this is part of a larger attack chain not yet detected"
+    ],
+    "overall_confidence": 0.65
+   },
+   "output_hash": "081e827b4dd5015788e9",
+   "validation": {
+    "schema_valid": true,
+    "citations_checked": 8,
+    "invalid_citations": [],
+    "unknown_techniques": [],
+    "dropped_uncited_facts": 0,
+    "errors": []
+   },
+   "latency_ms": 2153.9,
+   "created_at": "2026-09-25T17:04:17.508838+00:00"
+  },
+  {
+   "evidence_hash": "b92ae48d6ef501603570",
+   "provider": "mercury",
+   "model": "mercury-2.5",
+   "prompt_version": "v2",
+   "output": {
+    "executive_summary": "A high-privilege service account performed a rapid sequence of patches, configuration changes, and service restarts on a critical finance database host. This aligns with maintenance patterns but requires verification of authorization and impact.",
+    "observed_facts": [
+     {
+      "fact": "The svc-backup service account initiated multiple configuration changes, service restarts, and a patch installation on FINANCE-DB-01.",
+      "alert_ids": [
+       "ALT-007229",
+       "ALT-007271",
+       "ALT-007289",
+       "ALT-007310",
+       "ALT-007332",
+       "ALT-007340",
+       "ALT-007366",
+       "ALT-007370",
+       "ALT-007406",
+       "ALT-007410"
+      ]
+     },
+     {
+      "fact": "The activity occurred over a 13-minute window on 2026-09-14.",
+      "alert_ids": [
+       "ALT-007229",
+       "ALT-007410"
+      ]
+     },
+     {
+      "fact": "FINANCE-DB-01 is a critical finance database in the production environment.",
+      "alert_ids": [
+       "ALT-007229"
+      ]
+     },
+     {
+      "fact": "The svc-backup user is a service account with high privileges that typically runs on non-database hosts.",
+      "alert_ids": [
+       "ALT-007229"
+      ]
+     }
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The activity represents authorized routine maintenance or deployment by the svc-backup service account.",
+      "confidence": 0.7
+     },
+     {
+      "hypothesis": "The svc-backup account was compromised and is being used to modify the database configuration or prepare for data exfiltration.",
+      "confidence": 0.3
+     }
+    ],
+    "why_high_risk": [
+     "High criticality asset (FINANCE-DB-01) involved.",
+     "High privilege service account executing changes.",
+     "Activity deviates from the account's normal host baseline.",
+     "Rapid succession of multiple change types (patch, config, restart)."
+    ],
+    "affected_entities": [
+     "FINANCE-DB-01",
+     "svc-backup"
+    ],
+    "mitre_explanation": [],
+    "investigation_checks": [
+     "Verify if a change management ticket or approved deployment schedule exists for this time window.",
+     "Review database audit logs for specific queries or schema modifications initiated by svc-backup.",
+     "Check network flow logs from FINANCE-DB-01 for any outbound data transfers to unusual destinations.",
+     "Compare the configuration changes against known deployment scripts.",
+     "Review recent login history and authentication events for the svc-backup account."
+    ],
+    "uncertainties": [
+     "The specific purpose and content of the 'nightly-backup' and 'deploy' jobs are not detailed in attributes.",
+     "It is unclear if the service restarts were part of a deployment pipeline or triggered by failures."
+    ],
+    "overall_confidence": 0.6
+   },
+   "output_hash": "761474bda96e28157e14",
+   "validation": {
+    "schema_valid": true,
+    "citations_checked": 14,
+    "invalid_citations": [],
+    "unknown_techniques": [],
+    "dropped_uncited_facts": 0,
+    "errors": []
+   },
+   "latency_ms": 2802.1,
+   "created_at": "2026-09-25T17:04:20.336451+00:00"
+  },
+  {
+   "evidence_hash": "3b63f8654a4e5bc0ec7c",
+   "provider": "mercury",
+   "model": "mercury-2.5",
+   "prompt_version": "v2",
+   "output": {
+    "executive_summary": "A service account svc-backup executed configuration changes and installed patches on FINANCE-SRV-03 between 20:25 and 20:34 UTC on 2026-09-14. The alerts are low/informational and align with prior similar incidents involving the same service.",
+    "observed_facts": [
+     {
+      "fact": "Configuration changes were detected on FINANCE-SRV-03 under user svc-backup.",
+      "alert_ids": [
+       "ALT-009323",
+       "ALT-009336",
+       "ALT-009350"
+      ]
+     },
+     {
+      "fact": "A service restart occurred on FINANCE-SRV-03 under user svc-backup.",
+      "alert_ids": [
+       "ALT-009356"
+      ]
+     },
+     {
+      "fact": "A patch was installed on FINANCE-SRV-03 under user svc-backup.",
+      "alert_ids": [
+       "ALT-009365"
+      ]
+     }
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The activity is part of scheduled maintenance or patching performed by the svc-backup service account.",
+      "confidence": 0.75
+     },
+     {
+      "hypothesis": "The service account may have been abused to perform unauthorized configuration changes.",
+      "confidence": 0.25
+     }
+    ],
+    "why_high_risk": [
+     "High asset criticality (finance-app, prod)",
+     "High identity privilege for the service account",
+     "Multiple configuration changes in a short time window"
+    ],
+    "affected_entities": [
+     "FINANCE-SRV-03",
+     "svc-backup"
+    ],
+    "mitre_explanation": [],
+    "investigation_checks": [
+     "Review baseline activity for svc-backup on FINANCE-SRV-03",
+     "Check patching and change management tickets for 2026-09-14",
+     "Verify network destinations of connections from FINANCE-SRV-03 to 10.0.0.53",
+     "Compare with prior incidents INC-0008, INC-0012, INC-0014"
+    ],
+    "uncertainties": [
+     "No explicit details on which configuration parameters changed",
+     "No evidence of data exfiltration or lateral movement"
+    ],
+    "overall_confidence": 0.6
+   },
+   "output_hash": "d2d76c13a6281bfeb2ee",
+   "validation": {
+    "schema_valid": true,
+    "citations_checked": 5,
+    "invalid_citations": [],
+    "unknown_techniques": [],
+    "dropped_uncited_facts": 0,
+    "errors": []
+   },
+   "latency_ms": 1922.0,
+   "created_at": "2026-09-25T17:04:25.196605+00:00"
+  },
+  {
+   "evidence_hash": "38827d689f94b1a60ee5",
+   "provider": "mercury",
+   "model": "mercury-2.5",
+   "prompt_version": "v2",
+   "output": {
+    "executive_summary": "Between 2026-09-14 16:36 and 17:13 UTC, user finance-admin on FINANCE-SRV-03 had two failed authentications attributed to expired sessions, established two VPN sessions, accessed the code-repo file share, and accessed their mailbox via API. The user is a finance role with elevated privilege on a critical prod finance application host.",
+    "observed_facts": [
+     {
+      "fact": "Two failed login alerts for finance-admin with failure reason expired_session.",
+      "alert_ids": [
+       "ALT-008026",
+       "ALT-008182"
+      ]
+     },
+     {
+      "fact": "Two VPN connection established alerts for finance-admin.",
+      "alert_ids": [
+       "ALT-008080",
+       "ALT-008403"
+      ]
+     },
+     {
+      "fact": "Two file share access alerts for code-repo by finance-admin.",
+      "alert_ids": [
+       "ALT-008288",
+       "ALT-008417"
+      ]
+     },
+     {
+      "fact": "One mailbox accessed via API alert for finance-admin.",
+      "alert_ids": [
+       "ALT-008456"
+      ]
+     }
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Session expiration or credential issues led to reauth attempts.",
+      "confidence": 0.6
+     },
+     {
+      "hypothesis": "Compromised or misused admin account accessed sensitive repos and mailbox.",
+      "confidence": 0.45
+     },
+     {
+      "hypothesis": "Normal operational activity following session timeout.",
+      "confidence": 0.35
+     }
+    ],
+    "why_high_risk": [
+     "High-privilege finance-admin account on a critical finance application host.",
+     "Sensitive resource access to code-repo and mailbox.",
+     "Multiple actions across file share and API access within 37 minutes."
+    ],
+    "affected_entities": [
+     "finance-admin",
+     "FINANCE-SRV-03",
+     "code-repo",
+     "mailbox"
+    ],
+    "mitre_explanation": [],
+    "investigation_checks": [
+     "Review VPN logs for destination endpoints and any data transfer volumes.",
+     "Check code-repo access logs for downloads, clones, or pushes by finance-admin.",
+     "Inspect mailbox audit logs for API usage, export, or forwarding rules.",
+     "Validate session tokens and authentication logs for expired_session causes.",
+     "Compare activity with baseline hours and similar recent incidents."
+    ],
+    "uncertainties": [
+     "No direct evidence of data exfiltration or unauthorized access beyond activity logs.",
+     "Reason for expired_session is unclear; could be policy or account issue.",
+     "MITRE technique mappings not provided by evidence."
+    ],
+    "overall_confidence": 0.58
+   },
+   "output_hash": "91517d2f0c61904246c2",
+   "validation": {
+    "schema_valid": true,
+    "citations_checked": 7,
+    "invalid_citations": [],
+    "unknown_techniques": [],
+    "dropped_uncited_facts": 0,
+    "errors": []
+   },
+   "latency_ms": 1492.5,
+   "created_at": "2026-09-25T17:04:26.714602+00:00"
+  },
+  {
+   "evidence_hash": "55b5def8e31d8be3663b",
+   "provider": "mercury",
+   "model": "mercury-2.5",
+   "prompt_version": "v2",
+   "output": {
+    "executive_summary": "A firewall blocked an outbound connection from user finance-admin on host FINANCE-SRV-03 during non-baseline hours on 2026-09-14. The event was classified as medium severity due to high asset criticality and identity privilege, despite low alert severity.",
+    "observed_facts": [
+     {
+      "fact": "Outbound connection blocked from chrome.exe on FINANCE-SRV-03 initiated by user finance-admin",
+      "alert_ids": [
+       "ALT-009004"
+      ]
+     },
+     {
+      "fact": "The activity occurred at 19:08 UTC, outside baseline hours of 08:00-18:00 UTC for finance-admin",
+      "alert_ids": [
+       "ALT-009004"
+      ]
+     },
+     {
+      "fact": "FINANCE-SRV-03 is a production finance application server with criticality 5",
+      "alert_ids": [
+       "ALT-009004"
+      ]
+     }
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The finance-admin user attempted to access a web-based service or tool from a production finance server outside normal working hours",
+      "confidence": 0.7
+     },
+     {
+      "hypothesis": "An unauthorized user compromised the finance-admin account and attempted lateral movement or data access",
+      "confidence": 0.4
+     }
+    ],
+    "why_high_risk": [
+     "User finance-admin has elevated privileges (level 5)",
+     "Activity occurred on a critical production asset (FINANCE-SRV-03)",
+     "Behavior deviates from established baseline hours"
+    ],
+    "affected_entities": [
+     "finance-admin",
+     "FINANCE-SRV-03",
+     "finance department"
+    ],
+    "mitre_explanation": [],
+    "investigation_checks": [
+     "Review authentication logs for finance-admin around 2026-09-14T19:08:03Z for prior successful logins",
+     "Check for similar blocked outbound connections from FINANCE-SRV-03 in the past 7 days",
+     "Verify if chrome.exe is an approved application on FINANCE-SRV-03",
+     "Investigate destination IP 10.0.0.80 for expected services and ownership",
+     "Review INC-0028, INC-0036, INC-0032 for patterns in similar blocked connection incidents"
+    ],
+    "uncertainties": [
+     "No application mapping provided to identify specific techniques",
+     "Unclear if chrome.exe was launched intentionally or via automation",
+     "Destination IP purpose and expected traffic profile not confirmed",
+     "Analyst verdict for similar incidents unknown"
+    ],
+    "overall_confidence": 0.55
+   },
+   "output_hash": "aa22776da072e63616fc",
+   "validation": {
+    "schema_valid": true,
+    "citations_checked": 3,
+    "invalid_citations": [],
+    "unknown_techniques": [],
+    "dropped_uncited_facts": 0,
+    "errors": []
+   },
+   "latency_ms": 2109.9,
+   "created_at": "2026-09-25T17:04:31.844541+00:00"
+  }
+ ]
+}

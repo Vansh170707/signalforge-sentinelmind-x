@@ -11,6 +11,8 @@ import pytest
 _TMP = Path(tempfile.mkdtemp(prefix="smx-test-"))
 os.environ["DATABASE_URL"] = f"sqlite:///{_TMP / 'test.db'}"
 os.environ["DATA_DIR"] = str(_TMP / "data")
+os.environ["AI_CACHE_PATH"] = str(_TMP / "ai_cache.json")
+os.environ["OFFLINE_MODE"] = "false"
 for key in ("TYPESAFE_API_KEY", "GEMINI_API_KEY", "GROQ_API_KEY", "FOUNDRY_API_KEY", "INCEPTION_API_KEY"):
     os.environ[key] = ""
 

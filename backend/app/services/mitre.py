@@ -75,6 +75,11 @@ def _cmd(a: CanonicalAlert) -> str:
 def rule_brute_force(alerts: list[CanonicalAlert]):
     fails = _of(alerts, "failed_login")
     out = []
+    detected = _of(alerts, "brute_force_detected")
+    if detected and not _of(alerts, "password_spray_detected"):
+        users = sorted({a.user for a in detected if a.user})
+        return [("T1110", 0.85, detected + fails,
+                 f"{len(detected)} brute-force detections" + (f" for {', '.join(users[:3])}" if users else ""))]
     by_src_users: dict[str, set[str]] = defaultdict(set)
     for a in fails:
         if a.src_ip and a.user:
@@ -214,8 +219,18 @@ def rule_collection_exfil(alerts: list[CanonicalAlert]):
     return out
 
 
+def rule_vendor_reported(alerts: list[CanonicalAlert]):
+    """Techniques reported by the source product (e.g. Microsoft Sentinel `Techniques`). Lower confidence
+    than behavior rules; IDs are still validated and named from the local catalog."""
+    by_tid: dict[str, list[CanonicalAlert]] = defaultdict(list)
+    for a in alerts:
+        for tid in a.attributes.get("vendor_techniques", []) or []:
+            by_tid[str(tid)].append(a)
+    return [(tid, 0.6, ev, f"reported by {ev[0].vendor} on {len(ev)} alert(s)") for tid, ev in by_tid.items()]
+
+
 RULES: list[Rule] = [rule_brute_force, rule_valid_accounts, rule_execution, rule_credential_theft,
-                     rule_privilege, rule_discovery, rule_lateral, rule_collection_exfil]
+                     rule_privilege, rule_discovery, rule_lateral, rule_collection_exfil, rule_vendor_reported]
 
 
 def map_incident(alerts: list[CanonicalAlert], catalog: AttackCatalog | None = None) -> list[Mapping]:

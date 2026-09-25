@@ -52,13 +52,22 @@ const qs = (params: Record<string, string | number | undefined | null>) => {
 }
 
 export const api = {
-  health: () => request<{ status: string; database: string; attack_catalog: string }>('/health'),
+  health: () => request<{ status: string; database: string; attack_catalog: string; offline_mode?: boolean }>('/health'),
   overview: () => request<Overview>('/api/v1/metrics/overview'),
   evaluation: () => request<EvaluationResponse>('/api/v1/metrics/evaluation'),
   settings: () => request<SettingsView>('/api/v1/settings'),
   resetDemo: () => request<{ status: string }>('/api/v1/demo/reset', { method: 'POST' }),
-  loadDemo: (seed: number) =>
-    request<DemoLoadResult>('/api/v1/demo/load', { method: 'POST', body: JSON.stringify({ seed }) }),
+  loadDemo: (seed: number, via: 'native' | 'sentinel' = 'native') =>
+    request<DemoLoadResult>('/api/v1/demo/load', { method: 'POST', body: JSON.stringify({ seed, via }) }),
+  sentinelExport: (id: string) => request<Record<string, unknown>>(`/api/v1/incidents/${id}/sentinel`),
+  upload: async (file: File) => {
+    const form = new FormData()
+    form.append('file', file)
+    const res = await fetch('/api/v1/alerts/upload', { method: 'POST', body: form })
+    const body = await res.json()
+    if (!res.ok) throw new ApiError(res.status, body?.error?.message ?? res.statusText, res.headers.get('X-Trace-Id'))
+    return body as DemoLoadResult['batch'] & { rejected_rows: DemoLoadResult['rejected_rows'] }
+  },
   runPipeline: () => request<{ run_id: string }>('/api/v1/pipeline/run', { method: 'POST' }),
   pipeline: (runId: string) => request<PipelineRun>(`/api/v1/pipeline/${runId}`),
   latestPipeline: () => request<PipelineRun | null>('/api/v1/pipeline/latest'),

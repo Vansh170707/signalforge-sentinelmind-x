@@ -36,6 +36,7 @@ from app.services.demo_data import write_dataset
 from app.services.ingestion import IngestOutcome, ingest_rows, parse_payload
 from app.services.pipeline import run_pipeline
 from app.services.risk import compute_risk
+from app.services.sentinel import to_sentinel_alert_row
 
 _run_lock = threading.Lock()
 
@@ -83,17 +84,38 @@ def ingest(db: Session, rows: list[dict[str, Any]], source_name: str | None, tra
     return outcome
 
 
-def load_demo(db: Session, seed: int, trace_id: str | None = None) -> dict[str, Any]:
+def load_demo(db: Session, seed: int, trace_id: str | None = None, via: str = "native") -> dict[str, Any]:
+    """Generate + ingest the demo corpus. via="sentinel" renders it as Microsoft Sentinel SecurityAlert
+    export rows first, so the Sentinel connector does the mapping (end-to-end connector proof)."""
     t0 = time.perf_counter()
     info = write_dataset(demo_dir(), seed)
     repo.reset_all(db)
+    cache = load_ai_cache_file(db)
     rows = parse_payload((demo_dir() / "alerts.jsonl").read_text(), "jsonl")
-    outcome = ingest(db, rows, f"demo-seed-{seed}", trace_id)
-    repo.audit(db, "demo.load", target_type="dataset", target_id=str(seed), trace_id=trace_id)
-    return {"seed": seed, "generated_rows": info["rows"], "ground_truth_incidents": info["gt_incidents"],
+    if via == "sentinel":
+        rows = [to_sentinel_alert_row(r) for r in rows]
+    outcome = ingest(db, rows, f"demo-seed-{seed}" + ("-sentinel" if via == "sentinel" else ""), trace_id)
+    repo.audit(db, "demo.load", target_type="dataset", target_id=str(seed), trace_id=trace_id, via=via)
+    return {"seed": seed, "via": via, "ai_cache_imported": cache,
+            "generated_rows": info["rows"], "ground_truth_incidents": info["gt_incidents"],
             "batch": outcome.result.model_dump(exclude={"rejected_rows"}),
             "rejected_rows": [r.model_dump() for r in outcome.result.rejected_rows],
             "duration_ms": round((time.perf_counter() - t0) * 1000, 1)}
+
+
+def load_ai_cache_file(db: Session) -> dict[str, int]:
+    path = get_settings().ai_cache_path
+    if not path.exists():
+        return {"decisions": 0, "briefs": 0}
+    return repo.import_ai_cache(db, json.loads(path.read_text()))
+
+
+def save_ai_cache_file(db: Session) -> dict[str, int]:
+    data = repo.export_ai_cache(db)
+    path = get_settings().ai_cache_path
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, indent=1, default=str))
+    return {"decisions": len(data["decisions"]), "briefs": len(data["briefs"])}
 
 
 # ------------------------------------------------------------------ pipeline runs
@@ -142,7 +164,7 @@ def execute_pipeline_run(run_id: str) -> None:
             with session_scope() as db:
                 repo.save_pipeline_output(db, run_id, out, ctx_lookup)
             jev_stats: dict[str, Any] = {"enabled": False}
-            if settings.typesafe_api_key:
+            if settings.typesafe_api_key and not settings.offline_mode:
                 _progress(run_id, "jev_decisions", 0.8)
                 jev_stats = asyncio.run(decide_top_incidents(settings.jev_top_n))
             _progress(run_id, "evaluation", 0.92)
@@ -223,8 +245,8 @@ def evidence_pack_for(db: Session, view: dict[str, Any]) -> dict[str, Any]:
 async def decide_top_incidents(top_n: int, force: bool = False) -> dict[str, Any]:
     settings = get_settings()
     provider = JevDecisionProvider(settings.typesafe_api_key, settings.jev_model, settings.jev_timeout_seconds)
-    if not provider.available():
-        return {"enabled": False}
+    if not provider.available() or settings.offline_mode:
+        return {"enabled": False, "offline_mode": settings.offline_mode}
     with session_scope() as db:
         top = db.scalars(select(m.Incident).order_by(m.Incident.risk_score.desc()).limit(top_n)).all()
         cached = set(db.scalars(select(m.DecisionRun.evidence_hash).where(
@@ -292,7 +314,7 @@ async def brief_for_incident(incident_id: str, refresh: bool = False, providers_
         if view is None:
             return None
         providers = narrative_providers(settings, providers_order)
-        if not refresh:
+        if not refresh or not providers:  # offline / no providers: never replace a cached model brief
             cached = db.scalar(select(m.LlmRun).where(
                 m.LlmRun.evidence_hash == view["evidence_hash"], m.LlmRun.prompt_version == settings.prompt_version,
                 m.LlmRun.status == "ok").order_by(m.LlmRun.created_at.desc()).limit(1))

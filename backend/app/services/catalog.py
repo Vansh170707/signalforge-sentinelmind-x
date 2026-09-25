@@ -50,6 +50,10 @@ ALERT_TYPES: dict[str, AlertType] = {
     "login_new_source": AlertType("identity", "Sign-in from new source", "medium", "auth", "valid_access"),
     "new_device_login": AlertType("identity", "Sign-in from unfamiliar device", "medium", "auth", "valid_access"),
     "impossible_travel": AlertType("identity", "Impossible travel sign-in", "high", "auth", "valid_access"),
+    "brute_force_detected": AlertType(
+        "identity", "Brute force attack detected", "high", "auth_fail", "credential_attack"
+    ),
+    "sentinel_alert": AlertType("sentinel", "Microsoft Sentinel alert", "medium", "other"),
     "mfa_fatigue": AlertType("identity", "Repeated MFA push requests", "medium", "auth_fail", "credential_attack"),
     "vpn_connection": AlertType("network", "VPN session established", "informational", "auth"),
     "privilege_group_change": AlertType(

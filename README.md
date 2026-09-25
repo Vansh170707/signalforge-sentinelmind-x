@@ -37,13 +37,38 @@ cp .env.example .env     # optional: add provider keys
 docker compose up --build
 ```
 
-Services: `db` (PostgreSQL 16 + pgvector) :5432 · `backend` :8000 · `frontend` :3000.
+Services: `db` (PostgreSQL 16 + pgvector) :5432 · `backend` :8000 · `frontend` :3000 (production build).
+Verified end to end with the Playwright golden path on this stack.
+
+## Microsoft Sentinel connector
+
+- **Import:** upload a Sentinel `SecurityAlert` export as a KQL JSON/CSV result or a Log Analytics query API response
+  (Settings → Import alerts, or `POST /api/v1/alerts/upload`). Rows are detected and mapped automatically:
+  - entities (account, host, ip, process → file, mailbox, cloud-application) become canonical fields;
+  - `AlertName` is classified to the alert-type catalog;
+  - `Techniques` are kept as vendor-reported ATT&CK evidence and named from the local catalog;
+  - the raw row is preserved for audit.
+- **Round-trip proof:** Settings → *Ingest through the Microsoft Sentinel connector* renders the 10k corpus as
+  SecurityAlert rows first. Correlation stays at P 0.998 / R 0.994 and the golden story stays #1.
+- **Export:** *Export to Sentinel* on any incident, or `GET /api/v1/incidents/{id}/sentinel`, downloads a payload shaped
+  for the Sentinel incidents API. It includes title, severity, status, classification from the analyst verdict,
+  tactics, techniques, related alert IDs, entities and a comment with the evidence-cited brief. SentinelMind never
+  pushes to Sentinel itself; the export is advisory.
+
+## Demo insurance: AI cache + offline mode
+
+`make prewarm` computes Jev decisions and model briefs for the top incidents and saves them to `data/ai_cache.json`
+(committed; synthetic data only). Loading the demo imports this cache automatically. Cache keys are evidence hashes,
+so the output reattaches to the same incidents. With `OFFLINE_MODE=true` (`make offline`, or
+`OFFLINE_MODE=true docker compose up`) the app makes **zero outbound AI calls**, yet still shows the Jev-weighted
+ranking and the model-written briefs. The UI shows an "Offline demo mode" badge.
 
 ## Commands
 
 | Task | Command |
 | --- | --- |
-| Tests (44 backend + TS type-check; E2E: `cd frontend && npm run e2e`) | `make test` |
+| Tests (51 backend + TS type-check; E2E: `cd frontend && npm run e2e`) | `make test` |
+| Cache AI output for the demo / run with no AI network calls | `make prewarm` / `make offline` |
 | Regenerate demo corpus (seed) | `make seed SEED=11` |
 | Multi-seed robustness benchmark | `make benchmark` |
 | Refresh ATT&CK catalog from official STIX | `make mitre` |

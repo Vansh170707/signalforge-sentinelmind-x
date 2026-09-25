@@ -13,3 +13,5 @@
 | PII | Demo data is fully synthetic, using reserved IP ranges and fake names. Gemini free tier: synthetic data only. | `services/demo_data.py` |
 | Auditability | Audit events record ingest, pipeline runs, briefs and verdicts. Each API response has a trace ID. LLM runs store provider, model, prompt version, output hash and validation. | `audit_events`, `llm_runs` |
 | Bias in priority | Factors are shown on every incident. The benign critical-asset maintenance scenario is part of the test set. | `test_pipeline_golden.py` |
+| Connector trust | Sentinel rows go through the same validation as any alert. Vendor ATT&CK claims are validated against the catalog and carry lower confidence. The Sentinel export is a download; SentinelMind holds no Sentinel write credentials. | `services/sentinel.py` |
+| Outbound AI dependency | `OFFLINE_MODE=true` blocks every provider call. Cached AI output is synthetic-only and contains no secrets. | `config.py`, `data/ai_cache.json` |

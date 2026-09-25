@@ -16,7 +16,9 @@ export default function Settings() {
   const qc = useQueryClient()
   const s = useQuery({ queryKey: ['settings'], queryFn: api.settings })
   const [seed, setSeed] = useState(7)
-  const load = useMutation({ mutationFn: () => api.loadDemo(seed), onSuccess: () => qc.invalidateQueries() })
+  const [viaSentinel, setViaSentinel] = useState(false)
+  const load = useMutation({ mutationFn: () => api.loadDemo(seed, viaSentinel ? 'sentinel' : 'native'), onSuccess: () => qc.invalidateQueries() })
+  const upload = useMutation({ mutationFn: (f: File) => api.upload(f), onSuccess: () => qc.invalidateQueries() })
   const reset = useMutation({ mutationFn: api.resetDemo, onSuccess: () => qc.invalidateQueries() })
   if (s.isLoading) return <Loading rows={6} />
   if (s.error) return <ErrorState error={s.error} onRetry={() => s.refetch()} />
@@ -67,15 +69,41 @@ export default function Settings() {
               <Button variant="primary" onClick={() => load.mutate()} disabled={load.isPending}>{load.isPending ? 'Loading…' : 'Generate & load'}</Button>
               <Button variant="danger" onClick={() => reset.mutate()} disabled={reset.isPending}>Reset environment</Button>
             </div>
+            <label className="mt-3 flex items-center gap-2 text-sm text-slate-300">
+              <input type="checkbox" checked={viaSentinel} onChange={(e) => setViaSentinel(e.target.checked)} className="accent-cyan-500" />
+              Ingest through the Microsoft Sentinel connector (renders the corpus as SecurityAlert export rows first)
+            </label>
             {load.data && (
               <div className="mt-3 text-sm text-slate-300">
-                Seed {load.data.seed}: {load.data.batch.received.toLocaleString()} received, {load.data.batch.accepted.toLocaleString()} accepted, {load.data.batch.duplicates} duplicates, {load.data.batch.rejected} rejected.
+                Seed {load.data.seed}{load.data.via === 'sentinel' && ' via Sentinel connector'}: {load.data.batch.received.toLocaleString()} received, {load.data.batch.accepted.toLocaleString()} accepted, {load.data.batch.duplicates} duplicates, {load.data.batch.rejected} rejected
+                {load.data.batch.converted_from_sentinel ? `, ${load.data.batch.converted_from_sentinel.toLocaleString()} mapped from SecurityAlert rows` : ''}.
                 <ul className="mt-2 space-y-1 font-mono text-[11px] text-rose-300/80">
                   {load.data.rejected_rows.map((r) => <li key={r.row_index}>row {r.row_index} {r.alert_id}: {r.errors.join('; ')}</li>)}
                 </ul>
               </div>
             )}
             {reset.isSuccess && <div className="mt-3 text-sm text-slate-400">Environment reset.</div>}
+            <div className="mt-5 border-t border-ink-700 pt-4">
+              <div className="text-sm font-medium text-slate-200">Import alerts</div>
+              <p className="mt-0.5 text-xs text-slate-500">
+                JSONL, JSON or CSV. Microsoft Sentinel <span className="font-mono">SecurityAlert</span> exports (KQL results or Log Analytics API responses) are detected and mapped automatically. Run the pipeline afterwards.
+              </p>
+              <input
+                type="file"
+                accept=".json,.jsonl,.csv"
+                aria-label="Upload alerts file"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) upload.mutate(f); e.target.value = '' }}
+                className="mt-2 block text-sm text-slate-400 file:mr-3 file:rounded-lg file:border-0 file:bg-ink-700 file:px-3 file:py-1.5 file:text-sm file:text-slate-200 hover:file:bg-ink-600"
+              />
+              {upload.isPending && <div className="mt-2 text-sm text-slate-400">Uploading…</div>}
+              {upload.data && (
+                <div className="mt-2 text-sm text-slate-300">
+                  {upload.data.received.toLocaleString()} received · {upload.data.accepted.toLocaleString()} accepted · {upload.data.duplicates} duplicates · {upload.data.rejected} rejected
+                  {upload.data.converted_from_sentinel ? ` · ${upload.data.converted_from_sentinel.toLocaleString()} from Sentinel` : ''}
+                </div>
+              )}
+              {upload.error && <div className="mt-2"><ErrorState error={upload.error} /></div>}
+            </div>
             {(load.error || reset.error) && <div className="mt-3"><ErrorState error={load.error ?? reset.error} /></div>}
           </Panel>
         </div>

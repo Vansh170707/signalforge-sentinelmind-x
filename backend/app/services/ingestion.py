@@ -13,6 +13,7 @@ from typing import Any
 from app.schemas.alerts import BatchResult, CanonicalAlert, RejectedRow
 from app.services.context import ContextStore
 from app.services.normalization import NormalizationError, normalize_alert
+from app.services.sentinel import convert_rows
 
 
 @dataclass
@@ -36,8 +37,10 @@ def parse_payload(text: str, fmt: str) -> list[dict[str, Any]]:
         return rows
     if fmt == "json":
         data = json.loads(text)
-        if isinstance(data, dict):
-            data = data.get("alerts", [])
+        if isinstance(data, dict) and isinstance(data.get("tables"), list):
+            data = _log_analytics_rows(data)  # Log Analytics / Sentinel query API response
+        elif isinstance(data, dict):
+            data = data.get("alerts", data.get("value", []))
         if not isinstance(data, list):
             raise ValueError("JSON payload must be a list or {\"alerts\": [...]}")
         return data
@@ -61,10 +64,19 @@ def parse_payload(text: str, fmt: str) -> list[dict[str, Any]]:
     raise ValueError(f"unsupported format {fmt!r}")
 
 
+def _log_analytics_rows(data: dict[str, Any]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for table in data["tables"]:
+        cols = [c.get("name") for c in table.get("columns", [])]
+        rows.extend(dict(zip(cols, r, strict=False)) for r in table.get("rows", []))
+    return rows
+
+
 def ingest_rows(rows: list[dict[str, Any]], context: ContextStore | None = None,
                 batch_id: str | None = None, existing_hashes: dict[str, str] | None = None) -> IngestOutcome:
     t0 = time.perf_counter()
     batch_id = batch_id or f"BAT-{datetime.now(UTC).strftime('%Y%m%d-%H%M%S')}"
+    rows, converted = convert_rows(rows)  # Microsoft Sentinel SecurityAlert rows -> raw alerts
     seen: dict[str, CanonicalAlert] = {}
     known = dict(existing_hashes or {})
     accepted: list[CanonicalAlert] = []
@@ -107,5 +119,6 @@ def ingest_rows(rows: list[dict[str, Any]], context: ContextStore | None = None,
         rejected=len(rejected),
         rejected_rows=rejected[:200],
         duration_ms=round((time.perf_counter() - t0) * 1000, 1),
+        converted_from_sentinel=converted,
     )
     return IngestOutcome(alerts=accepted, result=result, duplicate_of=duplicate_of)

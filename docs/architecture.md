@@ -29,8 +29,20 @@ Compose uses PostgreSQL 16 with pgvector.
 Incident IDs follow the risk rank, so the same input and config give the same IDs. Feedback and cached decisions
 use the evidence hash as the key, so they reattach when the pipeline runs again.
 
+## Microsoft Sentinel connector
+`services/sentinel.py` maps `SecurityAlert` rows (KQL export JSON/CSV, or Log Analytics API `tables` responses) to raw
+alerts before normal validation. Entity JSON is resolved, including `$ref` links from process to image file.
+AlertName keywords map to the alert-type catalog. Vendor `Techniques` become low-confidence, catalog-validated ATT&CK
+evidence. Incidents export as a payload shaped for the Sentinel incidents API. The export is advisory: nothing is
+pushed automatically.
+
+## Demo insurance
+Jev decisions and model briefs are caches keyed by evidence hash. `reset` keeps them unless `purge_ai_cache=true`.
+`scripts/prewarm_ai.py` writes them to `data/ai_cache.json`, which demo load imports. `OFFLINE_MODE=true` disables
+every outbound AI call while still serving cached output.
+
 ## Microsoft fit
-- The data model follows the Sentinel structure: alert → incident → entity → timeline → ATT&CK.
+- The data model follows the Sentinel structure: alert → incident → entity → timeline → ATT&CK. A working connector imports Sentinel SecurityAlert exports and exports incidents in the Sentinel shape.
 - Microsoft Foundry is available as a narrative provider through an OpenAI v1-compatible endpoint (`FOUNDRY_*` env).
 - The target cloud deployment is Azure Container Apps for backend and frontend, with Azure Database for PostgreSQL + pgvector.
 - Entra ID and Application Insights are stretch goals.

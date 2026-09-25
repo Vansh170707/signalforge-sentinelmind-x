@@ -43,6 +43,9 @@ class Settings(BaseSettings):
     # Routing
     narrative_provider_order: str = "mercury,groq_hard,gemini,groq,template"
     prewarm_top_n: int = 3
+    # Venue-network insurance: no outbound AI calls; cached Jev decisions / model briefs are still served.
+    offline_mode: bool = False
+    ai_cache_path: Path = REPO_ROOT / "data" / "ai_cache.json"
     provider_cooldown_seconds: float = 60.0
     model_cache_enabled: bool = True
 

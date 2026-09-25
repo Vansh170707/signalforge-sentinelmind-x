@@ -59,6 +59,11 @@ export function Layout({ children }: { children: ReactNode }) {
               ))}
             </div>
           )}
+          {health.data?.offline_mode && (
+            <div className="rounded bg-amber-400/10 px-2 py-1 text-amber-300 ring-1 ring-inset ring-amber-400/30" title="No outbound AI calls; cached Jev decisions and model briefs are served">
+              Offline demo mode · cached AI
+            </div>
+          )}
           <div>ATT&CK v{health.data?.attack_catalog ?? '…'} · advisory only</div>
         </div>
       </aside>

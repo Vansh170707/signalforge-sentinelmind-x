@@ -70,7 +70,7 @@ def health() -> dict:
         conn.execute(text("SELECT 1"))
     s = get_settings()
     return {"status": "ok", "database": get_engine().dialect.name, "attack_catalog": get_catalog().version,
-            "jev_configured": bool(s.typesafe_api_key),
+            "jev_configured": bool(s.typesafe_api_key), "offline_mode": s.offline_mode,
             "narrative_providers": [f"{p.name}:{p.model}" for p in narrative_providers(s)] + ["template"]}
 
 

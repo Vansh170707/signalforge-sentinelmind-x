@@ -335,6 +335,8 @@ def narrative_providers(settings: Settings, order: list[str] | None = None) -> l
         "foundry": foundry_provider(settings.foundry_project_endpoint, settings.foundry_api_key,
                                     settings.foundry_model_deployment, settings.narrative_timeout_seconds),
     }
+    if settings.offline_mode:
+        return []
     out = []
     for name in order or settings.narrative_order:
         p = registry.get(name)
