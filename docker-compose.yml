@@ -1,0 +1,35 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: sentinelmind
+      POSTGRES_PASSWORD: sentinelmind
+      POSTGRES_DB: sentinelmind
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sentinelmind"]
+      interval: 5s
+      retries: 20
+
+  backend:
+    build: { context: ., dockerfile: backend/Dockerfile }
+    env_file: [{ path: .env, required: false }]
+    environment:
+      DATABASE_URL: postgresql+psycopg://sentinelmind:sentinelmind@db:5432/sentinelmind
+    ports: ["8000:8000"]
+    depends_on:
+      db: { condition: service_healthy }
+    volumes: [demo-data:/app/data/demo]
+
+  frontend:
+    build: { context: frontend }
+    environment:
+      VITE_API_TARGET: http://backend:8000
+    ports: ["3000:3000"]
+    depends_on:
+      backend: { condition: service_healthy }
+
+volumes:
+  pgdata:
+  demo-data:

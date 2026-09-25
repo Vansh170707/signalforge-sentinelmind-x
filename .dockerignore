@@ -1,0 +1,8 @@
+**/node_modules
+**/.venv
+**/__pycache__
+frontend/dist
+data/demo
+data/sentinelmind.db*
+data/mitre/enterprise-attack.json
+.git
