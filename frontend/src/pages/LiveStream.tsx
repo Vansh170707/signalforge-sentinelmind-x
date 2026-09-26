@@ -1,13 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Activity, ArrowRight, Boxes, Database, Gauge, Pause, Play, Radio, Siren, Square } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { api } from '../api/client'
 import { PageHeader } from '../components/Layout'
-import { Button, EmptyState, ErrorState, Kpi, Panel, SEV_COLOR, SeverityBadge } from '../components/ui'
+import { Button, Card, Chip, EmptyState, ErrorState, SEV_COLOR, SeverityBadge, StatCard, ease } from '../components/ui'
 import type { StreamBoardItem, StreamState } from '../types/api'
 
-const nf = new Intl.NumberFormat('en-US')
 const SPEEDS = [
   { v: 300, label: '300× · 4.8 min' },
   { v: 900, label: '900× · 96 s' },
@@ -44,12 +45,24 @@ export default function LiveStream() {
   const s = state.data
   const active = !!s && s.status !== 'idle'
   const running = s?.status === 'running'
+  const canStart = !active || s?.status === 'finished' || s?.status === 'error'
 
   return (
     <>
       <PageHeader
-        title={<span className="flex items-center gap-3">Live Stream {running && <span className="flex items-center gap-1.5 rounded-full bg-rose-500/15 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider text-rose-300 ring-1 ring-rose-500/40"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-400" />live</span>}</span>}
-        subtitle="The demo day replayed as a live alert feed. Incidents assemble, re-correlate and escalate as evidence arrives."
+        eyebrow="Real-time mode"
+        title={
+          <span className="flex items-center gap-3">
+            Live Stream
+            {running && (
+              <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-700 ring-1 ring-inset ring-red-200">
+                <span className="relative flex h-2 w-2"><span className="live-ping absolute inline-flex h-full w-full rounded-full bg-red-400" /><span className="relative h-2 w-2 rounded-full bg-red-500" /></span>
+                Live
+              </span>
+            )}
+          </span>
+        }
+        subtitle="The demo day replayed as a live alert feed. Watch incidents assemble, re-correlate and escalate as evidence arrives."
         actions={
           <>
             <select
@@ -59,35 +72,35 @@ export default function LiveStream() {
                 setSpeed(v)
                 if (active) changeSpeed.mutate(v)
               }}
-              className="rounded-lg border border-ink-600 bg-ink-850 px-2 py-2 text-sm text-slate-300"
+              className="h-9 rounded-lg border border-line-strong bg-white px-2.5 text-sm text-fg-2 shadow-[var(--shadow-xs)]"
               aria-label="Replay speed"
             >
               {SPEEDS.map((x) => <option key={x.v} value={x.v}>{x.label}</option>)}
             </select>
-            {!active || s?.status === 'finished' || s?.status === 'error' ? (
-              <Button variant="primary" size="lg" onClick={() => start.mutate()} disabled={start.isPending}>
-                {start.isPending ? 'Starting…' : s?.status === 'finished' ? 'Replay again' : 'Start live stream'}
+            {canStart ? (
+              <Button variant="primary" icon={Play} onClick={() => start.mutate()} loading={start.isPending}>
+                {s?.status === 'finished' ? 'Replay again' : 'Start live stream'}
               </Button>
             ) : (
               <>
-                <Button size="lg" onClick={() => pause.mutate()}>{running ? 'Pause' : 'Resume'}</Button>
-                <Button size="lg" variant="danger" onClick={() => stop.mutate()}>Stop</Button>
+                <Button icon={running ? Pause : Play} onClick={() => pause.mutate()}>{running ? 'Pause' : 'Resume'}</Button>
+                <Button variant="danger" icon={Square} onClick={() => stop.mutate()}>Stop</Button>
               </>
             )}
             {active && (
-              <Button size="lg" onClick={() => finalize.mutate()} disabled={finalize.isPending} title="Persist the day and run the full pipeline with Jev, briefs and evaluation">
-                {finalize.isPending ? 'Finalizing…' : 'Finalize → full pipeline'}
+              <Button icon={ArrowRight} onClick={() => finalize.mutate()} loading={finalize.isPending} title="Persist the day and run the full pipeline with Jev, briefs and evaluation">
+                Finalize → full pipeline
               </Button>
             )}
           </>
         }
       />
-      {(start.error || finalize.error || state.error) && <div className="mb-4"><ErrorState error={start.error ?? finalize.error ?? state.error} /></div>}
-      {s?.status === 'error' && <div className="mb-4"><ErrorState error={s.error} /></div>}
+      {(start.error || finalize.error || state.error) && <div className="mb-5"><ErrorState error={start.error ?? finalize.error ?? state.error} /></div>}
+      {s?.status === 'error' && <div className="mb-5"><ErrorState error={s.error} /></div>}
       {!active ? (
-        <EmptyState title="Stream is idle" action={<Button variant="primary" onClick={() => start.mutate()}>Start live stream</Button>}>
-          Replays 24 hours of the synthetic SOC (10,004 alerts) at up to 1800× speed. Correlation, anomaly scoring,
-          ATT&CK mapping and risk re-run every ~1.5 s on everything received so far. No external AI is called while streaming.
+        <EmptyState icon={Radio} title="Stream is idle" action={<Button variant="primary" icon={Play} onClick={() => start.mutate()}>Start live stream</Button>}>
+          Replays 24 hours of the synthetic SOC (10,004 alerts) at up to 1800× speed. Correlation, anomaly scoring, ATT&CK mapping and
+          risk re-run about every 1.5 s on everything received so far. No external AI is called while streaming.
         </EmptyState>
       ) : (
         <LiveBody s={s!} />
@@ -100,95 +113,123 @@ function LiveBody({ s }: { s: StreamState }) {
   const pct = Math.round((s.progress ?? 0) * 100)
   return (
     <div className="space-y-6">
-      <div className="grid gap-3 lg:grid-cols-[280px_1fr]">
-        <div className="rounded-xl border border-ink-700 bg-gradient-to-br from-ink-850 to-ink-900 px-5 py-4">
-          <div className="text-[11px] uppercase tracking-[0.14em] text-slate-500">Simulated clock (UTC)</div>
-          <div className="tabular mt-1 font-mono text-5xl font-semibold tracking-tight text-slate-50">{clock(s.sim_time)}</div>
-          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-ink-700">
-            <div className="h-full rounded-full bg-cyan-400 transition-[width] duration-700" style={{ width: `${pct}%` }} />
+      <div className="grid gap-4 xl:grid-cols-[300px_1fr]">
+        <div className="relative overflow-hidden rounded-xl border border-line bg-surface px-5 py-4 shadow-[var(--shadow-card)]">
+          <div className="text-[13px] font-medium text-fg-subtle">Simulated clock (UTC)</div>
+          <div className="tabular mt-1 font-mono text-[44px] font-semibold leading-none tracking-tight text-fg">{clock(s.sim_time)}</div>
+          <div className="mt-4 h-2 overflow-hidden rounded-full bg-muted">
+            <motion.div className="h-full rounded-full bg-gradient-to-r from-brand-500 to-brand-700" animate={{ width: `${pct}%` }} transition={{ duration: 0.6, ease }} />
           </div>
-          <div className="mt-1.5 flex justify-between text-[11px] text-slate-500">
+          <div className="mt-2 flex flex-wrap justify-between gap-x-3 gap-y-0.5 text-xs text-fg-subtle">
             <span>{pct}% of day · {s.speed}×</span>
-            <span>{s.status}{s.pipeline_ms ? ` · re-correlated in ${Math.round(s.pipeline_ms)} ms` : ''}</span>
+            <span>{s.status.charAt(0).toUpperCase() + s.status.slice(1)}{s.pipeline_ms ? ` · ${Math.round(s.pipeline_ms)} ms per pass` : ''}</span>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
-          <Kpi label="Alerts ingested" value={nf.format(s.alerts ?? 0)} hint={`${nf.format(s.rows_seen ?? 0)} of ${nf.format(s.rows_total ?? 0)} rows`} />
-          <Kpi label="Dupes / rejected" value={`${s.duplicates ?? 0} / ${s.rejected ?? 0}`} hint="collapsed / row-level errors" />
-          <Kpi label="Incidents" value={nf.format(s.incidents ?? 0)} hint="live correlation" tone="accent" />
-          <Kpi label="Critical / High" value={s.critical_high ?? 0} hint="need attention now" tone="critical" />
-          <Kpi label="Compression" value={s.compression_ratio ? `${s.compression_ratio}×` : '—'} hint="alerts per incident" />
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          <StatCard label="Alerts ingested" value={(s.alerts ?? 0).toLocaleString()} icon={Database} hint={`${(s.rows_seen ?? 0).toLocaleString()} of ${(s.rows_total ?? 0).toLocaleString()} rows · ${s.duplicates ?? 0} dup · ${s.rejected ?? 0} rejected`} />
+          <StatCard label="Incidents" value={(s.incidents ?? 0).toLocaleString()} icon={Boxes} tone="brand" hint="live correlation" />
+          <StatCard label="Critical & high" value={String(s.critical_high ?? 0)} icon={Siren} tone="critical" hint="need attention now" />
+          <StatCard label="Compression" value={s.compression_ratio ? `${s.compression_ratio}×` : '—'} icon={Gauge} hint="alerts per incident" />
         </div>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.4fr_1fr]">
-        <Panel title="Alert arrival rate" subtitle="Alerts per 10 minutes (high/critical overlaid)">
-          <div className="h-56">
+        <Card title="Alert arrival rate" description="Alerts per 10 minutes, with high and critical overlaid" icon={Activity}>
+          <div className="h-60">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={s.buckets ?? []} margin={{ left: -18, right: 6, top: 6 }}>
+              <AreaChart data={s.buckets ?? []} margin={{ left: -20, right: 6, top: 6 }}>
                 <defs>
                   <linearGradient id="gA" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#22d3ee" stopOpacity={0.5} />
-                    <stop offset="100%" stopColor="#22d3ee" stopOpacity={0.02} />
+                    <stop offset="0%" stopColor="#0f6cbd" stopOpacity={0.28} />
+                    <stop offset="100%" stopColor="#0f6cbd" stopOpacity={0.02} />
+                  </linearGradient>
+                  <linearGradient id="gH" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#d92d20" stopOpacity={0.35} />
+                    <stop offset="100%" stopColor="#d92d20" stopOpacity={0.03} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid stroke="#1d2a3e" vertical={false} />
-                <XAxis dataKey="t" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} interval={17} />
-                <YAxis tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} />
-                <Tooltip contentStyle={{ background: '#0b111b', border: '1px solid #2a3a53', borderRadius: 8, fontSize: 12 }} />
-                <Area type="monotone" dataKey="alerts" stroke="#22d3ee" fill="url(#gA)" isAnimationActive={false} />
-                <Area type="monotone" dataKey="high" stroke="#f43f5e" fill="#f43f5e" fillOpacity={0.25} isAnimationActive={false} />
+                <CartesianGrid stroke="#eef0f3" vertical={false} />
+                <XAxis dataKey="t" tick={{ fill: '#98a2b3', fontSize: 11 }} axisLine={false} tickLine={false} interval={17} />
+                <YAxis tick={{ fill: '#98a2b3', fontSize: 11 }} axisLine={false} tickLine={false} />
+                <Tooltip contentStyle={{ borderRadius: 10, border: '1px solid #e4e7ec', boxShadow: '0 12px 16px -4px rgb(16 24 40 / 0.08)', fontSize: 12 }} />
+                <Area type="monotone" dataKey="alerts" stroke="#0f6cbd" strokeWidth={2} fill="url(#gA)" isAnimationActive={false} />
+                <Area type="monotone" dataKey="high" stroke="#d92d20" strokeWidth={1.5} fill="url(#gH)" isAnimationActive={false} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
-        </Panel>
-        <Panel title="Escalation feed" subtitle="Incidents crossing into high / critical" bodyClass="p-2">
-          <ul className="scrollbar-thin h-56 space-y-1 overflow-y-auto">
-            {(s.events ?? []).length === 0 && <li className="px-2 py-6 text-center text-sm text-slate-500">Watching… nothing actionable yet.</li>}
-            {(s.events ?? []).map((e, i) => (
-              <li key={`${e.key}-${e.severity}`} className={`flex items-start gap-3 rounded-lg px-2.5 py-2 ${i === 0 ? 'bg-ink-800/80 ring-1 ring-inset ring-ink-600' : ''}`}>
-                <span className="mt-0.5 font-mono text-xs text-slate-500">{clock(e.sim_time).slice(0, 5)}</span>
-                <span className={e.severity === 'critical' && i === 0 ? 'pulse-critical rounded-md' : ''}><SeverityBadge severity={e.severity} /></span>
-                <div className="min-w-0">
-                  <div className="truncate text-sm text-slate-200">{e.title}</div>
-                  <div className="text-[11px] text-slate-500">{e.kind === 'escalated' ? 'escalated' : 'new'} · risk {e.risk.toFixed(0)} · {e.alert_count} alerts</div>
-                </div>
-              </li>
-            ))}
+        </Card>
+        <Card title="Escalation feed" description="Incidents crossing into high or critical" icon={Siren} bodyClass="p-2">
+          <ul className="scrollbar-thin h-60 space-y-1 overflow-y-auto">
+            {(s.events ?? []).length === 0 && <li className="flex h-full items-center justify-center text-sm text-fg-subtle">Watching the feed… nothing actionable yet.</li>}
+            <AnimatePresence initial={false}>
+              {(s.events ?? []).map((e, i) => (
+                <motion.li
+                  key={`${e.key}-${e.severity}`}
+                  layout
+                  initial={{ opacity: 0, x: -16, backgroundColor: e.severity === 'critical' ? '#fef3f2' : '#fffaeb' }}
+                  animate={{ opacity: 1, x: 0, backgroundColor: i === 0 ? (e.severity === 'critical' ? '#fef3f2' : '#fffaeb') : '#ffffff' }}
+                  transition={{ duration: 0.4, ease }}
+                  className="flex items-start gap-3 rounded-lg px-3 py-2.5"
+                >
+                  <span className="tabular mt-0.5 font-mono text-xs text-fg-faint">{clock(e.sim_time).slice(0, 5)}</span>
+                  <SeverityBadge severity={e.severity} size="sm" />
+                  <div className="min-w-0">
+                    <div className="truncate text-[13px] font-semibold text-fg">{e.title}</div>
+                    <div className="text-xs text-fg-subtle">{e.kind === 'escalated' ? 'Escalated' : 'New'} · risk {e.risk.toFixed(0)} · {e.alert_count} alerts</div>
+                  </div>
+                </motion.li>
+              ))}
+            </AnimatePresence>
           </ul>
-        </Panel>
+        </Card>
       </div>
 
-      <Panel title="Incident board" subtitle="Top incidents by risk, re-ranked on every correlation pass" bodyClass="p-3">
+      <Card title="Incident board" description="Top incidents by risk, re-ranked on every correlation pass" icon={Boxes} bodyClass="p-4">
         {(s.board ?? []).length === 0 ? (
-          <div className="py-8 text-center text-sm text-slate-500">Waiting for the first correlation pass…</div>
+          <div className="py-10 text-center text-sm text-fg-subtle">Waiting for the first correlation pass…</div>
         ) : (
-          <div className="grid gap-3 md:grid-cols-2">
-            {(s.board ?? []).map((b, i) => <BoardCard key={b.key} b={b} rank={i + 1} />)}
-          </div>
+          <motion.div layout className="grid gap-3 md:grid-cols-2">
+            <AnimatePresence initial={false}>
+              {(s.board ?? []).map((b, i) => <BoardCard key={b.key} b={b} rank={i + 1} />)}
+            </AnimatePresence>
+          </motion.div>
         )}
-      </Panel>
+      </Card>
     </div>
   )
 }
 
 function BoardCard({ b, rank }: { b: StreamBoardItem; rank: number }) {
+  const hot = b.severity === 'critical'
   return (
-    <div className="rounded-xl border border-ink-700 bg-ink-850 p-3.5 transition-colors" style={{ borderColor: b.severity === 'critical' ? 'rgb(244 63 94 / 0.45)' : undefined }}>
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.97 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.97 }}
+      transition={{ layout: { type: 'spring', stiffness: 380, damping: 34 }, duration: 0.3 }}
+      className={`rounded-xl border bg-white p-4 shadow-[var(--shadow-xs)] ${hot ? 'border-red-200 ring-4 ring-red-50' : 'border-line'}`}
+    >
       <div className="flex items-center gap-3">
-        <span className="w-5 font-mono text-xs text-slate-500">#{rank}</span>
-        <SeverityBadge severity={b.severity} />
-        <div className="min-w-0 flex-1 truncate text-sm font-medium text-slate-100" title={b.title}>{b.title}</div>
-        <span className="tabular font-mono text-xl font-semibold text-slate-50">{b.risk.toFixed(0)}</span>
+        <span className="tabular w-5 text-[13px] font-medium text-fg-faint">{rank}</span>
+        <SeverityBadge severity={b.severity} size="sm" />
+        <div className="min-w-0 flex-1 truncate text-sm font-semibold text-fg" title={b.title}>{b.title}</div>
+        <motion.span key={Math.round(b.risk)} initial={{ opacity: 0.4, y: -3 }} animate={{ opacity: 1, y: 0 }} className="tabular text-xl font-semibold text-fg">{b.risk.toFixed(0)}</motion.span>
       </div>
-      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-ink-700">
-        <div className="h-full rounded-full transition-[width] duration-700 ease-out" style={{ width: `${b.risk}%`, background: SEV_COLOR[b.severity] }} />
+      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted">
+        <motion.div className="h-full rounded-full" style={{ background: SEV_COLOR[b.severity] }} animate={{ width: `${b.risk}%` }} transition={{ duration: 0.7, ease }} />
       </div>
-      <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[11px]">
-        <span className="text-slate-400">{b.alert_count} alerts</span>
-        {b.stages.map((st) => <span key={st} className="rounded bg-ink-700 px-1.5 py-0.5 text-slate-300">{st}</span>)}
-        {b.mitre.slice(0, 4).map((t) => <span key={t} className="font-mono text-cyan-300/80">{t}</span>)}
+      <div className="mt-3 flex flex-wrap items-center gap-1.5">
+        <span className="mr-1 text-xs text-fg-subtle">{b.alert_count} alerts</span>
+        <AnimatePresence initial={false}>
+          {b.stages.map((st) => (
+            <motion.span key={st} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.25 }}>
+              <Chip>{st}</Chip>
+            </motion.span>
+          ))}
+        </AnimatePresence>
+        {b.mitre.slice(0, 4).map((t) => <Chip key={t} mono tone="brand">{t}</Chip>)}
       </div>
-    </div>
+    </motion.div>
   )
 }

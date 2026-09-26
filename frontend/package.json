@@ -13,6 +13,8 @@
   "dependencies": {
     "@tanstack/react-query": "^5.103.2",
     "cytoscape": "^3.34.3",
+    "lucide-react": "^1.48.0",
+    "motion": "^13.4.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.4",

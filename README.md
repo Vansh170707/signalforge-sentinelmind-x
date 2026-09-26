@@ -16,6 +16,12 @@ layers on top:
 - **Mercury 2.5 → Groq gpt-oss-120b → Gemini → Groq gpt-oss-20b → template**: narrative brief with automatic failover and a per-provider circuit breaker.
 - **Microsoft Foundry**: optional provider.
 
+![Command Center](docs/screenshots/01-command-center.png)
+
+| Incident detail | Live stream |
+| --- | --- |
+| ![Incident](docs/screenshots/03-incident-detail.png) | ![Live](docs/screenshots/07-live-stream.png) |
+
 ## Quick start (local, no Docker)
 
 Requirements: Python 3.12 with [uv](https://docs.astral.sh/uv/), and Node 20+.
@@ -81,6 +87,7 @@ ranking and the model-written briefs. The UI shows an "Offline demo mode" badge.
 | --- | --- |
 | Tests (54 backend + TS type-check; E2E: `cd frontend && npm run e2e`) | `make test` |
 | Cache AI output for the demo / run with no AI network calls | `make prewarm` / `make offline` |
+| Regenerate UI screenshots (servers running) | `cd frontend && node scripts/screenshots.mjs` |
 | Regenerate demo corpus (seed) | `make seed SEED=11` |
 | Multi-seed robustness benchmark | `make benchmark` |
 | Refresh ATT&CK catalog from official STIX | `make mitre` |

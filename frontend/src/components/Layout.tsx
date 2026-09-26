@@ -1,93 +1,129 @@
 import { useQuery } from '@tanstack/react-query'
+import { FlaskConical, LayoutDashboard, ListChecks, Radio, ScanSearch, Settings, WifiOff, type LucideIcon } from 'lucide-react'
+import { motion } from 'motion/react'
 import type { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
 import { api } from '../api/client'
 
-const NAV = [
-  { to: '/', label: 'Command Center', icon: 'M3 12h4l3-8 4 16 3-8h4' },
-  { to: '/live', label: 'Live Stream', icon: 'M5 12a7 7 0 0 1 14 0M2 12a10 10 0 0 1 20 0M9 12a3 3 0 0 1 6 0M12 12v8' },
-  { to: '/incidents', label: 'Incident Queue', icon: 'M4 6h16M4 12h16M4 18h10' },
-  { to: '/alerts', label: 'Alert Explorer', icon: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm10 17-4.3-4.3' },
-  { to: '/evaluation', label: 'Evaluation Lab', icon: 'M4 20V10m6 10V4m6 16v-7m6 7H2' },
-  { to: '/settings', label: 'Settings & Demo', icon: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7.4-3a7.4 7.4 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14.5 3h-5l-.4 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6a7.4 7.4 0 0 0 0 2.4l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2l.4 2.6h5l.4-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2z' },
+const NAV: { group: string; items: { to: string; label: string; icon: LucideIcon }[] }[] = [
+  {
+    group: 'Operate',
+    items: [
+      { to: '/', label: 'Command Center', icon: LayoutDashboard },
+      { to: '/live', label: 'Live Stream', icon: Radio },
+      { to: '/incidents', label: 'Incidents', icon: ListChecks },
+      { to: '/alerts', label: 'Alert Explorer', icon: ScanSearch },
+    ],
+  },
+  { group: 'Assure', items: [{ to: '/evaluation', label: 'Evaluation Lab', icon: FlaskConical }] },
+  { group: 'Configure', items: [{ to: '/settings', label: 'Settings & Data', icon: Settings }] },
 ]
+
+export function Logo({ size = 32 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 32 32" width={size} height={size} aria-hidden>
+      <rect width="32" height="32" rx="8" fill="#0f6cbd" />
+      <path d="M16 6.5 9 9.4v5.1c0 4.6 3 8.3 7 9.5 4-1.2 7-4.9 7-9.5V9.4L16 6.5z" fill="none" stroke="#fff" strokeWidth="2" strokeLinejoin="round" />
+      <path d="M12.6 15.6l2.4 2.4 4.6-5" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function ProviderDot({ name, on }: { name: string; on: boolean }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 text-xs text-fg-muted" title={on ? `${name} configured` : `${name} not configured`}>
+      <span className={`h-1.5 w-1.5 rounded-full ${on ? 'bg-emerald-500' : 'bg-line-strong'}`} />
+      {name}
+    </span>
+  )
+}
 
 export function Layout({ children }: { children: ReactNode }) {
   const health = useQuery({ queryKey: ['health'], queryFn: api.health, refetchInterval: 15_000 })
   const settings = useQuery({ queryKey: ['settings'], queryFn: api.settings })
   const p = settings.data?.providers
+  const ok = health.data?.status === 'ok'
   return (
-    <div className="flex h-full min-h-screen">
-      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-ink-800 bg-ink-900/60 lg:flex">
-        <div className="flex items-center gap-2.5 px-5 pb-5 pt-6">
-          <svg viewBox="0 0 32 32" className="h-8 w-8" aria-hidden>
-            <path d="M16 2 4 7v8c0 7.5 5.1 13.4 12 15 6.9-1.6 12-7.5 12-15V7L16 2z" fill="#0e7490" />
-            <path d="M10 16.5l4 4 8-9" fill="none" stroke="#e0f2fe" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <div>
-            <div className="text-[15px] font-bold tracking-tight text-slate-50">SentinelMind X</div>
-            <div className="text-[10px] uppercase tracking-[0.16em] text-slate-500">Team SignalForge</div>
+    <div className="flex min-h-screen">
+      <aside className="sticky top-0 hidden h-screen w-[248px] shrink-0 flex-col border-r border-line bg-surface lg:flex">
+        <div className="flex items-center gap-2.5 px-5 pb-6 pt-5">
+          <Logo />
+          <div className="leading-tight">
+            <div className="text-[15px] font-semibold tracking-tight text-fg">SentinelMind X</div>
+            <div className="text-xs text-fg-subtle">by Team SignalForge</div>
           </div>
         </div>
-        <nav className="flex-1 space-y-0.5 px-3">
-          {NAV.map((n) => (
-            <NavLink
-              key={n.to}
-              to={n.to}
-              end={n.to === '/'}
-              className={({ isActive }) =>
-                `flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${isActive ? 'bg-cyan-500/10 text-cyan-200 ring-1 ring-inset ring-cyan-500/25' : 'text-slate-400 hover:bg-ink-800 hover:text-slate-200'}`
-              }
-            >
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                <path d={n.icon} />
-              </svg>
-              {n.label}
-            </NavLink>
+        <nav className="flex-1 space-y-6 px-3">
+          {NAV.map((g) => (
+            <div key={g.group}>
+              <div className="px-2.5 pb-1.5 text-xs font-medium text-fg-faint">{g.group}</div>
+              <div className="space-y-0.5">
+                {g.items.map((n) => (
+                  <NavLink key={n.to} to={n.to} end={n.to === '/'} className="block">
+                    {({ isActive }) => (
+                      <span className={`relative flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors ${isActive ? 'text-brand-700' : 'text-fg-muted hover:bg-subtle hover:text-fg'}`}>
+                        {isActive && (
+                          <motion.span layoutId="nav-active" className="absolute inset-0 rounded-lg bg-brand-50 ring-1 ring-inset ring-brand-100" transition={{ type: 'spring', stiffness: 500, damping: 38 }} />
+                        )}
+                        <n.icon className="relative h-[18px] w-[18px]" strokeWidth={2} />
+                        <span className="relative">{n.label}</span>
+                        {n.to === '/live' && <span className="relative ml-auto rounded-full bg-red-50 px-1.5 text-[10px] font-semibold text-red-600 ring-1 ring-inset ring-red-200">LIVE</span>}
+                      </span>
+                    )}
+                  </NavLink>
+                ))}
+              </div>
+            </div>
           ))}
         </nav>
-        <div className="space-y-2 border-t border-ink-800 px-5 py-4 text-[11px] text-slate-500">
-          <div className="flex items-center gap-2">
-            <span className={`h-2 w-2 rounded-full ${health.data?.status === 'ok' ? 'bg-emerald-400' : health.isError ? 'bg-rose-500' : 'bg-slate-500'}`} />
-            API {health.data?.status === 'ok' ? `online · ${health.data.database}` : health.isError ? 'offline' : '…'}
+        <div className="m-3 rounded-xl border border-line bg-subtle/60 p-3.5">
+          <div className="flex items-center gap-2 text-[13px] font-medium text-fg-2">
+            <span className="relative flex h-2 w-2">
+              {ok && <span className="live-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400" />}
+              <span className={`relative inline-flex h-2 w-2 rounded-full ${ok ? 'bg-emerald-500' : health.isError ? 'bg-red-500' : 'bg-line-strong'}`} />
+            </span>
+            {ok ? 'All systems operational' : health.isError ? 'API offline' : 'Connecting…'}
           </div>
           {p && (
-            <div className="flex flex-wrap gap-1">
-              {(['jev', 'gemini', 'groq', 'foundry', 'template'] as const).map((k) => (
-                <span key={k} className={`rounded px-1.5 py-0.5 ring-1 ring-inset ${p[k]?.configured ? 'text-emerald-300 ring-emerald-500/30' : 'text-slate-600 ring-ink-700'}`}>
-                  {k}
-                </span>
-              ))}
+            <div className="mt-2.5 grid grid-cols-2 gap-x-2 gap-y-1.5">
+              <ProviderDot name="Jev" on={!!p.jev?.configured} />
+              <ProviderDot name="Mercury" on={!!p.mercury?.configured} />
+              <ProviderDot name="Groq" on={!!p.groq?.configured} />
+              <ProviderDot name="Gemini" on={!!p.gemini?.configured} />
             </div>
           )}
           {health.data?.offline_mode && (
-            <div className="rounded bg-amber-400/10 px-2 py-1 text-amber-300 ring-1 ring-inset ring-amber-400/30" title="No outbound AI calls; cached Jev decisions and model briefs are served">
-              Offline demo mode · cached AI
+            <div className="mt-2.5 flex items-center gap-1.5 rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-800 ring-1 ring-inset ring-amber-200">
+              <WifiOff className="h-3.5 w-3.5" /> Offline demo mode
             </div>
           )}
-          <div>ATT&CK v{health.data?.attack_catalog ?? '…'} · advisory only</div>
+          <div className="mt-2.5 border-t border-line pt-2 text-[11px] text-fg-subtle">
+            ATT&CK v{health.data?.attack_catalog ?? '…'} · {health.data?.database ?? '…'} · advisory only
+          </div>
         </div>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
-        <nav className="flex gap-1 overflow-x-auto border-b border-ink-800 bg-ink-900/60 px-3 py-2 lg:hidden">
-          {NAV.map((n) => (
-            <NavLink key={n.to} to={n.to} end={n.to === '/'} className={({ isActive }) => `whitespace-nowrap rounded-md px-3 py-1.5 text-sm ${isActive ? 'bg-cyan-500/10 text-cyan-200' : 'text-slate-400'}`}>
+        <nav className="flex items-center gap-1 overflow-x-auto border-b border-line bg-surface px-3 py-2 lg:hidden">
+          <Logo size={24} />
+          {NAV.flatMap((g) => g.items).map((n) => (
+            <NavLink key={n.to} to={n.to} end={n.to === '/'} className={({ isActive }) => `whitespace-nowrap rounded-md px-2.5 py-1.5 text-sm font-medium ${isActive ? 'bg-brand-50 text-brand-700' : 'text-fg-muted'}`}>
               {n.label}
             </NavLink>
           ))}
         </nav>
-        <main className="mx-auto w-full max-w-[1500px] flex-1 px-4 py-6 sm:px-6 lg:px-8">{children}</main>
+        <main className="mx-auto w-full max-w-[1440px] flex-1 px-4 py-7 sm:px-6 lg:px-10">{children}</main>
       </div>
     </div>
   )
 }
 
-export function PageHeader({ title, subtitle, actions }: { title: ReactNode; subtitle?: ReactNode; actions?: ReactNode }) {
+export function PageHeader({ title, subtitle, actions, eyebrow }: { title: ReactNode; subtitle?: ReactNode; actions?: ReactNode; eyebrow?: ReactNode }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-slate-50">{title}</h1>
-        {subtitle && <p className="mt-1 text-sm text-slate-400">{subtitle}</p>}
+    <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
+      <div className="min-w-0">
+        {eyebrow && <div className="mb-1.5 text-[13px] font-medium text-brand-600">{eyebrow}</div>}
+        <h1 className="text-[26px] font-semibold tracking-tight text-fg">{title}</h1>
+        {subtitle && <p className="mt-1 max-w-2xl text-[15px] text-fg-subtle">{subtitle}</p>}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
     </div>

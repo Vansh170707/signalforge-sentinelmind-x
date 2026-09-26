@@ -521,6 +521,8 @@ def settings_view(db: Session = Depends(get_db)) -> dict[str, Any]:
         "providers": {
             "jev": {"configured": bool(s.typesafe_api_key), "model": s.jev_model,
                     "benchmark_model": s.jev_benchmark_model, "top_n": s.jev_top_n},
+            "mercury": {"configured": bool(s.inception_api_key), "model": s.inception_model,
+                        "reasoning_effort": s.inception_reasoning_effort},
             "gemini": {"configured": bool(s.gemini_api_key), "model": s.gemini_model},
             "groq": {"configured": bool(s.groq_api_key), "fast_model": s.groq_fast_model,
                      "hard_model": s.groq_hard_model},

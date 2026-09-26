@@ -4,26 +4,44 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  --color-ink-950: #070b12;
-  --color-ink-900: #0b111b;
-  --color-ink-850: #0f1724;
-  --color-ink-800: #141e2e;
-  --color-ink-700: #1d2a3e;
-  --color-ink-600: #2a3a53;
-  --color-ink-500: #3d506c;
+  /* Neutral scale */
+  --color-canvas: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-subtle: #f2f4f7;
+  --color-muted: #eaecf0;
+  --color-line: #e4e7ec;
+  --color-line-strong: #d0d5dd;
+  --color-fg: #101828;
+  --color-fg-2: #344054;
+  --color-fg-muted: #475467;
+  --color-fg-subtle: #667085;
+  --color-fg-faint: #98a2b3;
 
-  --color-sev-critical: #f43f5e;
-  --color-sev-high: #fb923c;
-  --color-sev-medium: #facc15;
-  --color-sev-low: #38bdf8;
-  --color-sev-info: #94a3b8;
+  /* Brand: Fluent-style blue */
+  --color-brand-50: #eff6fe;
+  --color-brand-100: #dbeafc;
+  --color-brand-200: #b7d4f7;
+  --color-brand-300: #8dbdee;
+  --color-brand-400: #4f9be6;
+  --color-brand-500: #1f7bd8;
+  --color-brand-600: #0f6cbd;
+  --color-brand-700: #115ea3;
+  --color-brand-800: #0f4c83;
 
-  --color-accent: #22d3ee;
-  --color-accent-strong: #06b6d4;
+  /* Severity */
+  --color-sev-critical: #d92d20;
+  --color-sev-high: #ef6820;
+  --color-sev-medium: #dc9b04;
+  --color-sev-low: #0f6cbd;
+  --color-sev-info: #98a2b3;
+
+  --shadow-xs: 0 1px 2px 0 rgb(16 24 40 / 0.05);
+  --shadow-card: 0 1px 2px 0 rgb(16 24 40 / 0.04), 0 1px 3px 0 rgb(16 24 40 / 0.06);
+  --shadow-pop: 0 12px 16px -4px rgb(16 24 40 / 0.08), 0 4px 6px -2px rgb(16 24 40 / 0.03);
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html,
@@ -34,14 +52,26 @@ body,
 
 body {
   margin: 0;
-  background: var(--color-ink-950);
-  color: #dbe4f0;
+  background: var(--color-canvas);
+  color: var(--color-fg);
   font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background: rgb(34 211 238 / 0.3);
+  background: rgb(15 108 189 / 0.16);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
 }
 
 .scrollbar-thin::-webkit-scrollbar {
@@ -49,32 +79,42 @@ body {
   height: 8px;
 }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: var(--color-ink-600);
+  background: var(--color-line-strong);
   border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }
 .scrollbar-thin::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.tabular {
-  font-variant-numeric: tabular-nums;
-}
-
-@keyframes pulse-ring {
-  0% { box-shadow: 0 0 0 0 rgb(244 63 94 / 0.55); }
-  70% { box-shadow: 0 0 0 10px rgb(244 63 94 / 0); }
-  100% { box-shadow: 0 0 0 0 rgb(244 63 94 / 0); }
-}
-.pulse-critical {
-  animation: pulse-ring 2s infinite;
-}
-
 @keyframes shimmer {
-  0% { background-position: -400px 0; }
-  100% { background-position: 400px 0; }
+  0% { background-position: -468px 0; }
+  100% { background-position: 468px 0; }
 }
 .skeleton {
-  background: linear-gradient(90deg, var(--color-ink-800) 0px, var(--color-ink-700) 80px, var(--color-ink-800) 160px);
-  background-size: 800px 100%;
-  animation: shimmer 1.4s infinite linear;
+  background: linear-gradient(90deg, var(--color-subtle) 0px, #fbfcfd 120px, var(--color-subtle) 240px);
+  background-size: 936px 100%;
+  animation: shimmer 1.3s infinite linear;
+}
+
+@keyframes live-ping {
+  0% { transform: scale(1); opacity: 0.55; }
+  80%, 100% { transform: scale(2.4); opacity: 0; }
+}
+.live-ping {
+  animation: live-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.dot-grid {
+  background-color: #fbfcfd;
+  background-image: radial-gradient(circle at 1px 1px, #dde2e9 1px, transparent 0);
+  background-size: 18px 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
