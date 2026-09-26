@@ -126,3 +126,20 @@ def test_ai_cache_round_trip_and_offline_serving(client, loaded):
         settings.offline_mode = False
         with session_scope() as db:
             db.execute(delete(m.LlmRun))
+
+
+def test_stream_api_lifecycle(client):
+    import time as _t
+
+    s = client.post("/api/v1/stream/start", json={"seed": 7, "speed": 20000}).json()
+    assert s["status"] == "running"
+    assert client.post("/api/v1/stream/pause").json()["status"] == "paused"
+    assert client.post("/api/v1/stream/pause").json()["status"] == "running"
+    for _ in range(60):
+        st = client.get("/api/v1/stream/state").json()
+        if st["alerts"] > 500 and st["incidents"] > 0:
+            break
+        _t.sleep(0.25)
+    assert st["alerts"] > 500 and st["incidents"] > 0
+    assert client.post("/api/v1/stream/stop").json()["status"] == "idle"
+    assert client.get("/api/v1/stream/state").json()["status"] == "idle"

@@ -5,6 +5,7 @@ import { api } from '../api/client'
 
 const NAV = [
   { to: '/', label: 'Command Center', icon: 'M3 12h4l3-8 4 16 3-8h4' },
+  { to: '/live', label: 'Live Stream', icon: 'M5 12a7 7 0 0 1 14 0M2 12a10 10 0 0 1 20 0M9 12a3 3 0 0 1 6 0M12 12v8' },
   { to: '/incidents', label: 'Incident Queue', icon: 'M4 6h16M4 12h16M4 18h10' },
   { to: '/alerts', label: 'Alert Explorer', icon: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm10 17-4.3-4.3' },
   { to: '/evaluation', label: 'Evaluation Lab', icon: 'M4 20V10m6 10V4m6 16v-7m6 7H2' },

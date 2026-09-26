@@ -2,6 +2,9 @@
 
 1. **Open the problem.** "A SOC analyst does not have an alert problem. They have an attention problem." Open the Command Center with the data already loaded, or click **Load Demo**. Show 10,004 raw alerts: 180 duplicates and 4 malformed rows are rejected with reasons.
 2. **Ask the question.** "Which three deserve attention right now?" Open Alert Explorer briefly: page 1 of 197.
+3. **Alternative opener: Live Stream.** Start the stream at 900×. Around 02:45 simulated time the brute force appears
+   on the board as high, and at ~02:57 it escalates to **critical** in the feed. Click **Finalize → full pipeline**
+   (about 100 s total), then continue from step 4.
 3. **Run Intelligence Pipeline.** Stage progress runs through correlation, anomaly, ATT&CK and risk, and finishes in about 3 s. The funnel shows 10,004 → 9,820 → ~1,589 incidents → 3 critical/high.
 4. **Open INC-0001**, "Possible privileged account compromise: finance-admin", risk 90. Explain **Why risk = 90** before showing any AI text: asset 18 + privilege 14 + chain 16 + severity 17 + anomaly 9.
 5. **Walk the timeline.** Credential attack at 02:41, then valid access, execution, privilege, discovery, and finance-db access at 03:09. Then walk the **graph**: 203.0.113.27 → finance-admin → FINANCE-SRV-03 → powershell/certutil/rundll32 → finance-db → FINANCE-DB-01.

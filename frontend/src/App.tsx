@@ -7,6 +7,7 @@ import CommandCenter from './pages/CommandCenter'
 import EvaluationLab from './pages/EvaluationLab'
 import IncidentDetail from './pages/IncidentDetail'
 import IncidentQueue from './pages/IncidentQueue'
+import LiveStream from './pages/LiveStream'
 import Settings from './pages/Settings'
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<CommandCenter />} />
+          <Route path="/live" element={<LiveStream />} />
           <Route path="/incidents" element={<IncidentQueue />} />
           <Route path="/incidents/:id" element={<IncidentDetail />} />
           <Route path="/alerts" element={<AlertExplorer />} />

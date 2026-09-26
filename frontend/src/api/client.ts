@@ -11,6 +11,7 @@ import type {
   Page,
   PipelineRun,
   SettingsView,
+  StreamState,
   TriageSummary,
 } from '../types/api'
 
@@ -68,6 +69,13 @@ export const api = {
     if (!res.ok) throw new ApiError(res.status, body?.error?.message ?? res.statusText, res.headers.get('X-Trace-Id'))
     return body as DemoLoadResult['batch'] & { rejected_rows: DemoLoadResult['rejected_rows'] }
   },
+  streamStart: (seed: number, speed: number) =>
+    request<StreamState>('/api/v1/stream/start', { method: 'POST', body: JSON.stringify({ seed, speed }) }),
+  streamState: () => request<StreamState>('/api/v1/stream/state'),
+  streamPause: () => request<StreamState>('/api/v1/stream/pause', { method: 'POST' }),
+  streamSpeed: (speed: number) => request<StreamState>('/api/v1/stream/speed', { method: 'POST', body: JSON.stringify({ speed }) }),
+  streamStop: () => request<StreamState>('/api/v1/stream/stop', { method: 'POST' }),
+  streamFinalize: () => request<{ run_id: string; seed: number }>('/api/v1/stream/finalize', { method: 'POST' }),
   runPipeline: () => request<{ run_id: string }>('/api/v1/pipeline/run', { method: 'POST' }),
   pipeline: (runId: string) => request<PipelineRun>(`/api/v1/pipeline/${runId}`),
   latestPipeline: () => request<PipelineRun | null>('/api/v1/pipeline/latest'),

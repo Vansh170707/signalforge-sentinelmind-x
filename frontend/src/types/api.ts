@@ -300,3 +300,50 @@ export interface DemoLoadResult {
   duration_ms: number
   run_id?: string
 }
+
+export interface StreamBoardItem {
+  key: string
+  title: string
+  severity: Severity
+  risk: number
+  alert_count: number
+  stages: string[]
+  mitre: string[]
+  first_seen: string
+  last_seen: string
+  anomaly: number
+  chain: number
+}
+
+export interface StreamEvent {
+  sim_time: string | null
+  key: string
+  kind: 'new' | 'escalated'
+  severity: Severity
+  title: string
+  risk: number
+  alert_count: number
+}
+
+export interface StreamState {
+  status: 'idle' | 'running' | 'paused' | 'finished' | 'error'
+  seed?: number
+  speed?: number
+  error?: string | null
+  sim_time?: string | null
+  progress?: number
+  rows_seen?: number
+  rows_total?: number
+  alerts?: number
+  duplicates?: number
+  rejected?: number
+  incidents?: number
+  severity_counts?: Record<string, number>
+  critical_high?: number
+  compression_ratio?: number | null
+  board?: StreamBoardItem[]
+  events?: StreamEvent[]
+  buckets?: { t: string; alerts: number; high: number }[]
+  pipeline_ms?: number
+  analyses?: number
+}

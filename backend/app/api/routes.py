@@ -355,6 +355,82 @@ def post_feedback(incident_id: str, body: FeedbackIn, request: Request, db: Sess
     return {"incident_id": incident_id, "verdict": body.verdict, "status": inc.status}
 
 
+# ------------------------------------------------------------------ live stream
+class StreamStartIn(BaseModel):
+    seed: int = Field(default=7, ge=0, le=1_000_000)
+    speed: float = Field(default=900.0, ge=10, le=20_000)  # simulated seconds per real second
+
+
+class StreamSpeedIn(BaseModel):
+    speed: float = Field(ge=10, le=20_000)
+
+
+@router.post("/stream/start")
+def stream_start(body: StreamStartIn, request: Request) -> dict[str, Any]:
+    """Replay the demo corpus as an accelerated live alert stream (in memory; no external AI calls)."""
+    from app.services import stream
+    from app.services.demo_data import write_dataset
+
+    write_dataset(runner.demo_dir(), body.seed)
+    rows = parse_payload((runner.demo_dir() / "alerts.jsonl").read_text(), "jsonl")
+    engine = stream.StreamEngine(rows, runner.get_context(), seed=body.seed, speed=body.speed,
+                                 cfg=runner.correlation_config())
+    stream.replace(engine)
+    engine.start()
+    return engine.snapshot()
+
+
+@router.get("/stream/state")
+def stream_state() -> dict[str, Any]:
+    from app.services import stream
+
+    engine = stream.current()
+    return engine.snapshot() if engine else {"status": "idle"}
+
+
+@router.post("/stream/pause")
+def stream_pause() -> dict[str, Any]:
+    from app.services import stream
+
+    engine = stream.current()
+    if engine is None:
+        raise HTTPException(409, "no stream running")
+    engine.pause()
+    return engine.snapshot()
+
+
+@router.post("/stream/speed")
+def stream_speed(body: StreamSpeedIn) -> dict[str, Any]:
+    from app.services import stream
+
+    engine = stream.current()
+    if engine is None:
+        raise HTTPException(409, "no stream running")
+    engine.set_speed(body.speed)
+    return engine.snapshot()
+
+
+@router.post("/stream/stop")
+def stream_stop() -> dict[str, Any]:
+    from app.services import stream
+
+    stream.replace(None)
+    return {"status": "idle"}
+
+
+@router.post("/stream/finalize")
+def stream_finalize(request: Request, db: Session = Depends(get_db)) -> dict[str, Any]:
+    """Persist the streamed corpus and run the full pipeline (Jev decisions, briefs, evaluation)."""
+    from app.services import stream
+
+    engine = stream.current()
+    seed = engine.state.seed if engine else get_settings().demo_seed
+    stream.replace(None)
+    result = runner.load_demo(db, seed, trace(request))
+    db.commit()
+    return {"seed": seed, "run_id": runner.start_pipeline_run(trace(request)), "batch": result["batch"]}
+
+
 # ------------------------------------------------------------------ metrics
 @router.get("/metrics/overview")
 def metrics_overview(db: Session = Depends(get_db)) -> dict[str, Any]:

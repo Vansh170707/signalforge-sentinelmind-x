@@ -40,6 +40,18 @@ docker compose up --build
 Services: `db` (PostgreSQL 16 + pgvector) :5432 · `backend` :8000 · `frontend` :3000 (production build).
 Verified end to end with the Playwright golden path on this stack.
 
+## Live Stream mode
+
+**Live Stream** in the sidebar replays the demo day as a live alert feed at 300–1800× speed. Alerts go through normal
+ingestion as they "arrive". The deterministic pipeline (correlation, anomaly, ATT&CK, risk) re-runs on everything
+received so far every ~1.5 s, so the audience watches incidents assemble and escalate:
+- ~02:45 simulated time: "Repeated failed authentication: finance-admin" appears as high.
+- ~02:57: it escalates to critical as "Possible privileged account compromise" once execution follows the sign-in.
+- The spray and the DC exfiltration surface later in the day.
+
+The stream makes no external AI calls. **Finalize** persists the day and runs the full pipeline (Jev, briefs,
+evaluation). The end state matches the batch pipeline exactly (tested).
+
 ## Microsoft Sentinel connector
 
 - **Import:** upload a Sentinel `SecurityAlert` export as a KQL JSON/CSV result or a Log Analytics query API response
@@ -67,7 +79,7 @@ ranking and the model-written briefs. The UI shows an "Offline demo mode" badge.
 
 | Task | Command |
 | --- | --- |
-| Tests (51 backend + TS type-check; E2E: `cd frontend && npm run e2e`) | `make test` |
+| Tests (54 backend + TS type-check; E2E: `cd frontend && npm run e2e`) | `make test` |
 | Cache AI output for the demo / run with no AI network calls | `make prewarm` / `make offline` |
 | Regenerate demo corpus (seed) | `make seed SEED=11` |
 | Multi-seed robustness benchmark | `make benchmark` |

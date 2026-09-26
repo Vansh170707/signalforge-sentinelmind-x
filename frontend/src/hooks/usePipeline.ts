@@ -27,6 +27,7 @@ export function usePipeline() {
     queryFn: () => api.pipeline(active!),
     enabled: !!active,
     refetchInterval: (q) => (q.state.data && ['completed', 'failed'].includes(q.state.data.status) ? false : 400),
+    refetchIntervalInBackground: true,
   })
   const status = run.data?.status
   useEffect(() => {

@@ -29,6 +29,12 @@ Compose uses PostgreSQL 16 with pgvector.
 Incident IDs follow the risk rank, so the same input and config give the same IDs. Feedback and cached decisions
 use the evidence hash as the key, so they reattach when the pipeline runs again.
 
+## Live stream
+`services/stream.py` replays the corpus with a simulated clock. Due rows go through normal ingestion (dedupe against
+everything already received). The full deterministic pipeline re-runs at most every 1.5 s. Incidents are tracked across
+passes by their earliest alert ID, which drives the escalation feed. The state is in memory and polled by the UI.
+Finalize persists the day through the standard demo load and pipeline.
+
 ## Microsoft Sentinel connector
 `services/sentinel.py` maps `SecurityAlert` rows (KQL export JSON/CSV, or Log Analytics API `tables` responses) to raw
 alerts before normal validation. Entity JSON is resolved, including `$ref` links from process to image file.
